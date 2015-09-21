@@ -9,7 +9,7 @@ import com.virtualdogbert.ast.Enforce
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
+import grails.core.DefaultGrailsApplication
 import spock.lang.Specification
 
 /**
@@ -33,7 +33,7 @@ class EnforcerServiceSpec extends Specification {
         SpringSecurityService.metaClass.currentUser = {-> testUser }
 
         service.grailsApplication = new DefaultGrailsApplication()
-        service.grailsApplication.config = [enforcer: [enabled: true]]//This enables Enforcer for unit tests because it is turned off by default.
+        service.grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
     }
 
     //Testing EnforcerService
