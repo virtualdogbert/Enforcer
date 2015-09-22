@@ -19,6 +19,7 @@
 
 package ${packageName}
 
+import com.virtualdogbert.ast.EnforcerException
 import grails.transaction.Transactional
 import grails.util.Environment
 
@@ -28,7 +29,7 @@ class EnforcerService implements RoleTrait,DomainRoleTrait{
     def grailsApplication
     def springSecurityService
 
-    def enforce(Closure predicate, Closure failure = { throw new Exception("Access Denied") }, Closure success = { return true }) {
+    def enforce(Closure predicate, Closure failure = { throw new EnforcerException("Access Denied") }, Closure success = { return true }) {
 
         if (Environment.current != Environment.TEST || grailsApplication.config.enforcer.enabled) {
             predicate.delegate = this
