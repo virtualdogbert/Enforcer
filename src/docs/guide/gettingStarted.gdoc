@@ -1,0 +1,26 @@
+So to get started\:
+
+1. Have the Spring Security Core plug-in installed
+
+2. Make sure you've run the quick start(e.g. grails s2-quickstart com.security User Role) note the package name
+
+3. Add the Enforcer dependency:
+
+In Grails 2 add the following to your buildConfig.groovy under the plug-ins section \:
+
+{code}
+compile "\:enforcer\:0.21" 
+{code}
+
+In grails 3 add the following dependency to your gradle.build\:
+
+{code} 
+compile "org.grails.plugins:enforcer:0.3.1" 
+{code}
+
+4. Run grails enforcer-quickstart <name of the package you installed spring security core under>
+
+5. Check the Usage section and start using Enforcer.
+
+
+{note} The version scheme is Major.GrailsVersion.Minor {note}
