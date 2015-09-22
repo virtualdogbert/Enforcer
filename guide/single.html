@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>enforcer 0.3.1</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#gettingStarted"><strong>2</strong><span>Getting Started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#usage"><strong>3</strong><span>Usage</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#whyUseEnforcer"><strong>4</strong><span>Why Use Enforcer</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p></p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>enforcer - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Tucker J. Pelletier AKA virtualdogbert</p>
+                            <p><strong>Version:</strong> 0.3.1</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#gettingStarted"><strong>2</strong><span>Getting Started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#usage"><strong>3</strong><span>Usage</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#whyUseEnforcer"><strong>4</strong><span>Why Use Enforcer</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+
+<h1 id="introduction">1 Introduction</h1>
+<div class="code"><pre><span class="java&#45;quote">"You've gotta ask yourself one question&#58; 'Do I feel lucky?' Well, <span class="java&#45;keyword">do</span> ya, punk?"</span>Dirty Hairy(1971)</pre></div><p class="paragraph"/>The Enforcer Plugin, is a light wieght, easier to maintain/extend/use, alternative to Spring Security ACL. The plugin works off of a EnforcerService and an Enforce Ast transform, The service take s up to 3 closures, a predicate, a failure(defaults to an EnforcerException if not specified) and a success(defaulted to a closure that returns true). The predicate is evaluated, if it returns true, the the success closure is evaluated, else the failure closure is evaluated. With this you can enforce any buisness rule you want. The EnforcerService implements two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods in the traits without injecting any extra calls to services, which makes the calls to the service less verbose, and easier to read. The perfered method of extending the Enforcer Service is to add new methods to the trais, modifiy the existing methods in the traits, or add a new trait.<p class="paragraph"/>
+The AST Tranform Enforce, can be applied to a method, and injects a call to the EnforcerService(usage shown in the usage section). The AST tranform Enforce, is more for the asthetic of making a clear disticution from buisness rules/security and your main code, but has the same power as the EnforcerService. From the AST tranform you can call any service, and use any variable pass into the annotated method.<p class="paragraph"/>The Enforcer plugin was inspired by issues with Spring Security ACL, and trying to figure out a better and more flexable way of dealing with buisness rules. Also Zed Shaw's:<p class="paragraph"/><a href="https://vimeo.com/2723800" target="blank">The ACL is Dead</a>
+
+
+
+<h1 id="gettingStarted">2 Getting Started</h1>
+So to get started&#58;
+<ol>
+<li>Have the Spring Security Core plug-in installed</li>
+</ol><p class="paragraph"/>2. Make sure you've run the quick start(e.g. grails s2-quickstart com.security User Role) note the package name<p class="paragraph"/>3. Add the Enforcer dependency:<p class="paragraph"/>In Grails 2 add the following to your buildConfig.groovy under the plug-ins section &#58;<p class="paragraph"/><div class="code"><pre>compile <span class="java&#45;quote">"&#58;enforcer&#58;0.21"</span></pre></div><p class="paragraph"/>In grails 3 add the following dependency to your gradle.build&#58;<p class="paragraph"/><div class="code"><pre>compile <span class="java&#45;quote">"org.grails.plugins:enforcer:0.3.1"</span></pre></div><p class="paragraph"/>4. Run grails enforcer-quickstart &#60;name of the package you installed spring security core under&#62;<p class="paragraph"/>5. Check the Usage section and start using Enforcer.<p class="paragraph"/>
+<blockquote class="note"> The version scheme is Major.GrailsVersion.Minor </blockquote>
+
+
+
+<h1 id="usage">3 Usage</h1>
+Here are some code examples of what you can do with the Enforcer plug-in&#58;<p class="paragraph"/>    <div class="code"><pre>//Check to domain role <span class="java&#45;keyword">for</span> the role owner on the Sprocket domain with an sprocket id or 1 <span class="java&#45;keyword">for</span> a user
+    service.enforce(&#123; hasDomainRole('owner', 'Sprocket', 1, testUser) &#125;)<p class="paragraph"/>    //Checks to see <span class="java&#45;keyword">if</span> the test user has the Role ROLE_USER
+    service.enforce(&#123; hasRole('ROLE_USER', testUser) &#125;)<p class="paragraph"/>
+    //The <span class="java&#45;keyword">default</span> closure <span class="java&#45;keyword">for</span> success will be called &#123;<span class="java&#45;keyword">return</span> <span class="java&#45;keyword">true</span>&#125; so the method will be executed
+    @Enforce(&#123; <span class="java&#45;keyword">true</span> &#125;)
+    def method1() &#123;
+        println 'nice'
+    &#125;<p class="paragraph"/>    //The <span class="java&#45;keyword">default</span> closure <span class="java&#45;keyword">for</span> success will be called &#123;<span class="java&#45;keyword">return</span> <span class="java&#45;keyword">true</span>&#125; so the method will be executed
+    //in <span class="java&#45;keyword">this</span> example you see <span class="java&#45;keyword">if</span> your using more than just the predicate closure  you need to specify
+    //the names of the parameters. Also predicate is named value, which facilitates the above example,
+    //so in that <span class="java&#45;keyword">case</span> you don't have to specify the parameters name, but here you <span class="java&#45;keyword">do</span>.
+    @Enforce(value = &#123; <span class="java&#45;keyword">true</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"not nice"</span>) &#125;)
+    def method2() &#123;
+        println 'nice'
+    &#125;<p class="paragraph"/>    //The failure closure will get called
+    @Enforce(value = &#123; <span class="java&#45;keyword">false</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"nice"</span>) &#125;)
+    def method3() &#123;
+        <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"<span class="java&#45;keyword">this</span> shouldn't happen on method3"</span>)
+    &#125;<p class="paragraph"/>    //The success closure will get called
+    @Enforce(value = &#123; <span class="java&#45;keyword">true</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"not nice"</span>) &#125;, success = &#123; println <span class="java&#45;quote">"nice"</span> &#125;)
+    def method4() &#123;<p class="paragraph"/>    &#125;<p class="paragraph"/>    //The failure closure will get called
+    @Enforce(value = &#123; <span class="java&#45;keyword">false</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"nice"</span>) &#125;, success = &#123; println <span class="java&#45;quote">"not nice"</span> &#125;)
+    def method5() &#123;
+        <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"<span class="java&#45;keyword">this</span> shouldn't happen on method5"</span>)
+    &#125;<p class="paragraph"/>    //checking a variable
+    @Enforce(&#123; number == 5 &#125;)
+    def method6(def number) &#123;
+        println 'nice'
+    &#125;<p class="paragraph"/>    // an example using services
+    def someService
+    def someOtherSerive
+    @Enforce(&#123;someService.isRightNumber(number) &#38;&#38; someOtherService.isRightName(name)&#125;)
+    def someMethod(<span class="java&#45;object">long</span> number, <span class="java&#45;object">String</span> name) &#123;
+        println 'nice'
+    &#125;<p class="paragraph"/>    //an example using hasDomainRole and hasRole
+    @Enforce(&#123;hasDomainRole('owner', 'Sprocket', 1, testUser) || hasRole('ROLE_ADMIN', testUser)&#125;)
+    def someMethod(Srocket sprocket) &#123;
+        println 'nice'
+    &#125;</pre></div>
+
+
+
+<h1 id="whyUseEnforcer">4 Why Use Enforcer</h1>
+So why would you want to use Enforcer? What's Wrong with Spring Security ACL?<p class="paragraph"/>Well lets take a look to the down sides to using Spring Security ACL
+<ol>
+<li>It's annotations use the Spring EL language, in the form of a string, so&#8230; no compiler help, no IDE help, no syntax highlighting, and EL isn't as flexible as groovy.</li>
+<li>It uses a "bit mask" for storing permission, while this is very efficient, but hard to read, also we're not in the 80's anymore, and disk is cheap.</li>
+<li>It uses a highly normalized set for domains/tables for storing permission. This means that querying the db will involve many joins, which will slow down the writing and running of queries</li>
+<li>Updating permission especially in bulk can be really slow, because of the built-in caching. If you use direct SQL you have to invalidate the plug-ins internal cache</li>
+<li>The annotation only gets run of you call from a method outside the service, that you are calling to. This can leed to a false sense of security.</li>
+<li>If you are not using a hierarchy for your permission, which I don't see a config option for, you will end up with a lot of permissions in the db. I've seen it as bad and 400,000 permission entries for just over a 1000 containers.</li>
+<li>Extending the plug-in is not straight forward. Adding new permissions isn't bad but you have to deal with the "bit mask". However if you want to add functions that can be called in the EL expression&#8230; good luck.  Adding new functions that you can call would involve some been overrides,  and extending classes. I've tried it twice and it didn't work either time.  I do thing however you maybe able to call services from within the EL, with the current version, but don't quote me on that.</li>
+<li>It's somewhat hard to setup tests your annotations.</li>
+</ol><p class="paragraph"/>Now in response to each Enforcer:
+<ol>
+<li>Use a closure, so you have the full flexibility of groovy, your IDE, will help you and will do syntax highlighting</li>
+<li>The default DomainRole, which you don't have to use uses a string which is easy to read and query.</li>
+<li>The DomainRole is denormalize, so that it will be quicker and involve less queires to read and write.</li>
+<li>As said before DomainRole is denormized so it's quick to update.</li>
+<li>The Enforce AST transform/annotation runs every time a method it's annotation is called, unless your are running from the test environment</li>
+<li>DomainRole uses a hierarchy by default so you'll have less entries in the db, which will be easier to query and migrate if you have too.</li>
+<li>Extending Enforcer is easy, by adding methods to either of the traits the EnforcerService uses, or adding your own trait, to just calling any service from with in the closure(s) you pass in.</li>
+<li>Testing is easy see the EnforcerServiceSpec for examples.</li>
+</ol><p class="paragraph"/>
+
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/enforcer-quickstart.html">enforcer-quickstart</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            
+            
+        </div>
+
+
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    </body>
+</html>
