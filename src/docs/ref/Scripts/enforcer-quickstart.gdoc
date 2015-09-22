@@ -1,0 +1,14 @@
+h1. enforcer - quickstart
+
+h2. Purpose
+
+Creates EnforcerService, DomainRoleTrait, RoleTrait, DomainRole and EnforcerServiceSpec. These are suggested starting points. You should feel free to modify them is anyway you see fit to enforce business rules. It's recommened that you modify the traits or add new ones to the EnforcerService.
+
+The general
+format is:
+
+{code}
+grails enforcer-quickstart package
+{code}
+
+

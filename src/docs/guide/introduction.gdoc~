@@ -1,0 +1,11 @@
+{code}
+"You've gotta ask yourself one question\: 'Do I feel lucky?' Well, do ya, punk?"Dirty Hairy(1971)
+{code}
+
+The Enforcer Plugin, is a light wieght, easier to maintain/extend/use, alternative to Spring Security ACL. The plugin works off of a EnforcerService and an Enforce Ast transform, The service take s up to 3 closures, a predicate, a failure(defaults to an EnforcerException if not specified) and a success(defaulted to a closure that returns true). The predicate is evaluated, if it returns true, the the success closure is evaluated, else the failure closure is evaluated. With this you can enforce any buisness rule you want. The EnforcerService implements two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods in the traits without injecting any extra calls to services, which makes the calls to the service less verbose, and easier to read. The perfered method of extending the Enforcer Service is to add new methods to the trais, modifiy the existing methods in the traits, or add a new trait.
+
+
+The AST Tranform Enforce, can be applied to a method, and injects a call to the EnforcerService(usage shown in the usage section). The AST tranform Enforce, is more for the asthetic of making a clear disticution from buisness rules/security and your main code, but has the same power as the EnforcerService. From the AST tranform you can call any service, and use any variable pass into the annotated method.
+
+The Enforcer plugin was inspired by issues with Spring Security ACL, and trying to figure out a better and more flexable way of dealing with buisness rules. Also Zed Shaw's:
+[The ACL is Dead|https://vimeo.com/2723800]

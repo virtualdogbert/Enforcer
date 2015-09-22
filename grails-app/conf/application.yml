@@ -15,6 +15,9 @@ spring:
 
 ---
 grails:
+    doc:
+        authors: Tucker J. Pelletier AKA virtualdogbert
+        license: Apache2
     mime:
         disable:
             accept:
