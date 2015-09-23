@@ -25,10 +25,12 @@ import com.virtualdogbert.ast.Enforce
 
 trait DomainRoleTrait {
 
-    Boolean hasDomainRole(String role, String domainName, Long id, User user = null) {
+    Boolean hasDomainRole(String role, domainObject, User user = null) {
         if (!user) {
             user = springSecurityService.currentUser
         }
+
+        String domainName =  domainObject.getClass().name
 
         Map roleHierarchy = [
                 'owner' : ['owner', 'editor', 'viewer'],
@@ -37,8 +39,15 @@ trait DomainRoleTrait {
         ]
 
         DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
-
         domainRole?.role in roleHierarchy[role]
+    }
+
+    Boolean isCreator(domainObject, user = null) {
+        if (!user) {
+            user = springSecurityService.currentUser
+        }
+
+        domainObject.creator.id == user.id
     }
 
     @Enforce({ hasDomainRole('owner', domainObject) || isCreator(domainObject) || haRole('ROLE_ADMIN') })
@@ -47,30 +56,26 @@ trait DomainRoleTrait {
             user = springSecurityService.currentUser
         }
 
+        String domainName =  domainObject.getClass().name
+
         DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
 
         if (domainRole) {
             domainRole.role = role
         } else {
-            domainRole = new DomainRole(role: role, domainName: domainName, domainId: id, user: user)
+            domainRole = new DomainRole(role: role, domainName: domainName, domainId: domainObject.id, user: user, creator: springSecurityService.getCurrentUser())
         }
 
-        domainRole.save()
+        domainRole.save(failOnError: true)
     }
 
-    boolean isCreator(domainObject, user = null) {
+    @Enforce({ hasDomainRole('owner', domainObject) || haRole('ROLE_ADMIN') })
+    void removeDomainRole(domainObject, User user = null) {
         if (!user) {
             user = springSecurityService.currentUser
         }
 
-        domainObject.creator.id == user.id
-    }
-
-    @Enforce({ hasDomainRole('owner', domainName, id) || haRole('ROLE_ADMIN') })
-    void removeDomainRole(String domainName, Long id, User user = null) {
-        if (!user) {
-            user = springSecurityService.currentUser
-        }
+        String domainName =  domainObject.getClass().name
 
         DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
 
