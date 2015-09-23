@@ -25,15 +25,15 @@ import com.virtualdogbert.ast.Enforce
 
 trait DomainRoleTrait {
 
-    Boolean hasDomainRole(String role, String domainName, Long id, User user = null) {
+    boolean hasDomainRole(String role, String domainName, Long id, User user = null) {
         if (!user) {
             user = springSecurityService.currentUser
         }
 
         Map roleHierarchy = [
-                'owner' : ['owner', 'editor', 'viewer'],
-                'editor': ['editor', 'viewer'],
-                'viewer': ['viewer']
+                owner : ['owner', 'editor', 'viewer'],
+                editor: ['editor', 'viewer'],
+                viewer: ['viewer']
         ]
         DomainRole domainRole = DomainRole.where { role == role && domainName == domainName && domainId == id && user == user }.find()
         domainRole?.role in roleHierarchy[role]
@@ -64,8 +64,6 @@ trait DomainRoleTrait {
 
         DomainRole domainRole = DomainRole.where { domainName == domainName && domainId == id && user == user }.find()
 
-        if (domainRole) {
-            domainRole.delete()
-        }
+        domainRole?.delete()
     }
 }

@@ -31,7 +31,7 @@ class EnforcerServiceSpec extends Specification {
         UserRole.create testUser, adminRole, true
         UserRole.create testUser, userRole, true
 
-        SpringSecurityService.metaClass.currentUser = {-> testUser }
+        SpringSecurityService.metaClass.getCurrentUser = {-> testUser }
 
         service.grailsApplication = new DefaultGrailsApplication()
         service.grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
@@ -192,7 +192,7 @@ class EnforcerServiceSpec extends Specification {
     }
 
     @Enforce({ number == 5 })
-    def method6(def number) {
+    def method6(number) {
         println 'nice'
     }
 }
