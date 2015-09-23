@@ -38,7 +38,7 @@ class EnforcerServiceSpec extends Specification {
         service.springSecurityService.getCurrentUser = {-> testUser }
 
         service.grailsApplication = new DefaultGrailsApplication()
-        service.grailsApplication.config = [enforcer: [enabled: true]]//This enables Enforcer for unit tests because it is turned off by default.
+        service.grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
     }
 
     //Testing EnforcerService
@@ -88,7 +88,7 @@ class EnforcerServiceSpec extends Specification {
 
     /* For these tests you'll have to sub out the Sprocket domain for one that is in your application
     //Testing DomainRoleTrait
-    void 'test enforce hasDomainRole(\'owner\', domainObject, testUser)'() {
+    void 'test enforce hasDomainRole("owner", domainObject, testUser)'() {
         when:
             Sprocket sprocket = new Sprocket(material: 'metal', creator: testUser).save(failOnError: true)
             service.changeDomainRole('owner', sprocket, testUser)
@@ -97,7 +97,7 @@ class EnforcerServiceSpec extends Specification {
             true
     }
 
-    void 'test fail enforce hasDomainRole(\'owner\',domainObject, testUser)'() {
+    void 'test fail enforce hasDomainRole("owner",domainObject, testUser)'() {
         when:
             Sprocket sprocket = new Sprocket(material: 'metal',creator: testUser).save(failOnError: true)
             service.changeDomainRole('owner', sprocket, testUser)
@@ -108,21 +108,21 @@ class EnforcerServiceSpec extends Specification {
     */
 
      //Testing RoleTrait
-    void 'test enforce hasRole(\'ROLE_ADMIN\', testUser)'(){
+    void 'test enforce hasRole("ROLE_ADMIN", testUser)'(){
         when:
             service.enforce({ hasRole('ROLE_ADMIN', testUser) })
         then:
             true
     }
 
-    void 'test enforce hasRole(\'ROLE_USER\', testUser)'(){
+    void 'test enforce hasRole("ROLE_USER", testUser)'(){
         when:
             service.enforce({ hasRole('ROLE_USER', testUser) })
         then:
             true
     }
 
-    void 'test enforce hasRole(\'ROLE_ADMIN\', testUser)'(){
+    void 'test enforce hasRole("ROLE_ADMIN", testUser)'(){
         when:
             service.enforce({ hasRole('ROLE_SUPER_USER', testUser) })
         then:
@@ -200,7 +200,7 @@ class EnforcerServiceSpec extends Specification {
     }
 
     @Enforce({ number == 5 })
-    def method6(def number) {
+    def method6(number) {
         println 'nice'
     }
 }

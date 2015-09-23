@@ -23,7 +23,7 @@ import ${packageName}.User
 
 trait RoleTrait {
 
-    Boolean hasRole(String role, User user = null){
+    boolean hasRole(String role, User user = null){
         if(!user){
             user = springSecurityService.currentUser
         }
