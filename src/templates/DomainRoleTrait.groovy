@@ -35,7 +35,9 @@ trait DomainRoleTrait {
                 'editor': ['editor', 'viewer'],
                 'viewer': ['viewer']
         ]
-        DomainRole domainRole = DomainRole.where { role == role && domainName == domainName && domainId == id && user == user }.find()
+
+        DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
+
         domainRole?.role in roleHierarchy[role]
     }
 
@@ -45,7 +47,7 @@ trait DomainRoleTrait {
             user = springSecurityService.currentUser
         }
 
-        DomainRole domainRole = DomainRole.where { domainName == domainName && domainId == id && user == user }.find()
+        DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
 
         if (domainRole) {
             domainRole.role = role
@@ -70,7 +72,7 @@ trait DomainRoleTrait {
             user = springSecurityService.currentUser
         }
 
-        DomainRole domainRole = DomainRole.where { domainName == domainName && domainId == id && user == user }.find()
+        DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
 
         if (domainRole) {
             domainRole.delete()
