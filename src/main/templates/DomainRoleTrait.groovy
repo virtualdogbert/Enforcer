@@ -30,10 +30,12 @@ trait DomainRoleTrait {
             user = springSecurityService.currentUser
         }
 
+        String domainName =  domainObject.getClass().name
+
         Map roleHierarchy = [
-                'owner' : ['owner', 'editor', 'viewer'],
-                'editor': ['editor', 'viewer'],
-                'viewer': ['viewer']
+                owner : ['owner', 'editor', 'viewer'],
+                editor: ['editor', 'viewer'],
+                viewer: ['viewer']
         ]
         DomainRole domainRole = DomainRole.where { role == role && domainName == domainName && domainId == id && user == user }.find()
         domainRole?.role in roleHierarchy[role]
@@ -64,8 +66,6 @@ trait DomainRoleTrait {
 
         DomainRole domainRole = DomainRole.where { domainName == domainName && domainId == id && user == user }.find()
 
-        if (domainRole) {
-            domainRole.delete()
-        }
+        domainRole?.delete()
     }
 }
