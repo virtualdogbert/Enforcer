@@ -25,7 +25,7 @@ import com.virtualdogbert.ast.Enforce
 
 trait DomainRoleTrait {
 
-    Boolean hasDomainRole(String role, String domainName, Long id, User user = null) {
+    boolean hasDomainRole(String role, domainObject, User user = null) {
         if (!user) {
             user = springSecurityService.currentUser
         }
@@ -41,29 +41,40 @@ trait DomainRoleTrait {
         domainRole?.role in roleHierarchy[role]
     }
 
-    @Enforce({ hasDomainRole('owner', domainName, id) || haRole('ROLE_ADMIN') })
-    void changeDomainRole(String role, String domainName, Long id, User user = null) {
+    Boolean isCreator(domainObject, user = null) {
         if (!user) {
             user = springSecurityService.currentUser
         }
 
+        domainObject.creator.id == user.id
+    }
         DomainRole domainRole = DomainRole.where { domainName == domainName && domainId == id && user == user }.find()
+
+    @Enforce({ hasDomainRole('owner', domainObject) || isCreator(domainObject) || haRole('ROLE_ADMIN') })
+    void changeDomainRole(String role, domainObject, User user = null) {
+        if (!user) {
+            user = springSecurityService.currentUser
+        }
+
+        String domainName =  domainObject.getClass().name
+
 
         if (domainRole) {
             domainRole.role = role
         } else {
-            domainRole = new DomainRole(role: role, domainName: domainName, domainId: id, user: user)
+            domainRole = new DomainRole(role: role, domainName: domainName, domainId: domainObject.id, user: user, creator: springSecurityService.getCurrentUser())
         }
 
         domainRole.save()
     }
 
-    @Enforce({ hasDomainRole('owner', domainName, id) || haRole('ROLE_ADMIN') })
-    void removeDomainRole(String domainName, Long id, User user = null) {
+    @Enforce({ hasDomainRole('owner', domainObject) || haRole('ROLE_ADMIN') })
+    void removeDomainRole(domainObject, User user = null) {
         if (!user) {
             user = springSecurityService.currentUser
         }
 
+        String domainName =  domainObject.getClass().name
         DomainRole domainRole = DomainRole.where { domainName == domainName && domainId == id && user == user }.find()
 
         domainRole?.delete()
