@@ -66,7 +66,7 @@ trait DomainRoleTrait {
             domainRole = new DomainRole(role: role, domainName: domainName, domainId: domainObject.id, user: user, creator: springSecurityService.getCurrentUser())
         }
 
-        domainRole.save(failOnError: true)
+        domainRole.save()
     }
 
     @Enforce({ hasDomainRole('owner', domainObject) || haRole('ROLE_ADMIN') })
