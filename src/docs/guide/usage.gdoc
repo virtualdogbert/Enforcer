@@ -2,8 +2,8 @@ Here are some code examples of what you can do with the Enforcer plug-in\:
 	
     {code:groovy}
     
-    //Check to domain role for the role owner on the Sprocket domain with an sprocket id or 1 for a user
-    service.enforce({ hasDomainRole('owner', 'Sprocket', 1, testUser) })
+    //Check to domain role for the role owner on the Sprocket domain instance for a user
+    service.enforce({ hasDomainRole('owner', sprocket, testUser) })
 
     //Checks to see if the test user has the Role ROLE_USER
     service.enforce({ hasRole('ROLE_USER', testUser) })
@@ -57,7 +57,7 @@ Here are some code examples of what you can do with the Enforcer plug-in\:
     }
 
     //an example using hasDomainRole and hasRole
-    @Enforce({hasDomainRole('owner', 'Sprocket', 1, testUser) || hasRole('ROLE_ADMIN', testUser)})
+    @Enforce({hasDomainRole('owner', spocket, testUser) || hasRole('ROLE_ADMIN', testUser)})
     def someMethod(Srocket sprocket) {
         println 'nice'
     }

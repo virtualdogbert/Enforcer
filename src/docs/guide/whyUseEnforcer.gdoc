@@ -1,6 +1,9 @@
 So why would you want to use Enforcer? What's Wrong with Spring Security ACL?
 
-Well lets take a look to the down sides to using Spring Security ACL
+Before I begin I want to say that Spring Security ACL had it's time, but I think we can do better, given a dynamic language like Groovy. 
+I also think that some of the ideas could be portable to a Java 8 lambda syntax. They might not be as convenient, because you don't have Groovy's truth model,
+
+Well lets take a look at the down sides, to using Spring Security ACL
 
 # It's annotations use the Spring EL language, in the form of a string, so... no compiler help, no IDE help, no syntax highlighting, and EL isn't as flexible as groovy.
 # It uses a "bit mask" for storing permission, while this is very efficient, but hard to read, also we're not in the 80's anymore, and disk is cheap.
@@ -11,10 +14,10 @@ Well lets take a look to the down sides to using Spring Security ACL
 # Extending the plug-in is not straight forward. Adding new permissions isn't bad but you have to deal with the "bit mask". However if you want to add functions that can be called in the EL expression... good luck.  Adding new functions that you can call would involve some been overrides,  and extending classes. I've tried it twice and it didn't work either time.  I do thing however you maybe able to call services from within the EL, with the current version, but don't quote me on that.
 # It's somewhat hard to setup tests your annotations.
 
-Now in response to each Enforcer:
+Now in response to each, Enforcer:
 # Use a closure, so you have the full flexibility of groovy, your IDE, will help you and will do syntax highlighting
 # The default DomainRole, which you don't have to use uses a string which is easy to read and query.
-# The DomainRole is denormalize, so that it will be quicker and involve less queires to read and write.
+# The DomainRole is denormalize, so that it will be quicker and involve less queries to read and write.
 # As said before DomainRole is denormized so it's quick to update.
 # The Enforce AST transform/annotation runs every time a method it's annotation is called, unless your are running from the test environment
 # DomainRole uses a hierarchy by default so you'll have less entries in the db, which will be easier to query and migrate if you have too.
