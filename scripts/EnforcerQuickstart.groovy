@@ -15,7 +15,7 @@
  //This is an altered copy of the s2quick start script from the spring security core plugin.
 import grails.util.GrailsNameUtils
 
-includeTargets << new File(enforcerPluginDir, 'scripts/_S2Common.groovy')
+includeTargets << new File(enforcerPluginDir, 'scripts/_EnforcerCommon.groovy')
 
 USAGE = '''
 Usage: grails enforcer-quickstart <package name you used for spring security core plugin>
