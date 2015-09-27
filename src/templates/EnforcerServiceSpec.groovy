@@ -10,7 +10,7 @@ import com.virtualdogbert.ast.EnforcerException
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import grails.core.DefaultGrailsApplication
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import spock.lang.Specification
 
 /**
