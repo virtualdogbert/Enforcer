@@ -73,8 +73,8 @@ class EnforceASTTransformation extends AbstractASTTransformation {
         }
 
         VariableScopeVisitor scopeVisitor = new VariableScopeVisitor(sourceUnit)
-        sourceUnit.AST.classes.each {
-            scopeVisitor.visitClass(it)
+        sourceUnit.AST.classes.each { ClassNode classNode ->
+            scopeVisitor.visitClass(classNode)
         }
     }
 
