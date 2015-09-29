@@ -1,64 +1,84 @@
 Here are some code examples of what you can do with the Enforcer plug-in\:
 	
-    {code:groovy}
-    
-    //Check to domain role for the role owner on the Sprocket domain with an sprocket id or 1 for a user
-    service.enforce({ hasDomainRole('owner', 'Sprocket', 1, testUser) })
 
-    //Checks to see if the test user has the Role ROLE_USER
-    service.enforce({ hasRole('ROLE_USER', testUser) })
+Check to domain role for the role owner on the Sprocket domain instance for a user
+{code:groovy}
+def enforcerService
+enforcerService.enforce(\{ hasDomainRole('owner', sprocket, testUser) \})
+{code}
+
+Checks to see if the test user has the Role ROLE_USER
+{code:groovy}
+def enforcerService
+enforcerService.enforce(\{ hasRole('ROLE_USER', testUser) \})
+{code}
+
+The default closure for success will be called \{return true\} so the method will be executed
+{code:groovy}
+@Enforce(\{ true \})
+def method1() \{
+    println 'nice'
+\}
+{code}
+
+The default closure for success will be called {return true} so the method will be executed
+in this example you see if your using more than just the predicate closure  you need to specify
+the names of the parameters. Also predicate is named value, which facilitates the above example,
+so in that case you don't have to specify the parameters name, but here you do.
+{code:groovy}
+@Enforce(value = \{ true \}, failure = \{ throw new EnforcerException("not nice") \})
+def method2() \{
+    println 'nice'
+\}
+{code}
+
+The failure closure will get called
+{code:groovy}
+@Enforce(value = \{ false \}, failure = \{ throw new EnforcerException("nice") \})
+def method3() \{
+    throw new EnforcerException("this shouldn't happen on method3")
+\}
+{code}
+
+The success closure will get called
+{code:groovy}
+@Enforce(value = \{ true \}, failure = \{ throw new EnforcerException("not nice") \}, success = \{ println "nice" \})
+def method4() \{
+
+\}
+{code}
+
+The failure closure will get called
+{code:groovy}
+@Enforce(value = \{ false \}, failure = \{ throw new EnforcerException("nice") \}, success = \{ println "not nice" \})
+def method5() \{
+    throw new EnforcerException("this shouldn't happen on method5")
+\}
+{code}
 
 
-    //The default closure for success will be called {return true} so the method will be executed
-    @Enforce({ true })
-    def method1() {
-        println 'nice'
-    }
+Checking a variable
+{code:groovy}
+@Enforce(\{ number == 5 \})
+def method6(def number) \{
+    println 'nice'
+\}
+{code}
 
-    //The default closure for success will be called {return true} so the method will be executed
-    //in this example you see if your using more than just the predicate closure  you need to specify
-    //the names of the parameters. Also predicate is named value, which facilitates the above example,
-    //so in that case you don't have to specify the parameters name, but here you do.
-    @Enforce(value = { true }, failure = { throw new EnforcerException("not nice") })
-    def method2() {
-        println 'nice'
-    }
+An example using services
+{code:groovy}
+def someService
+def someOtherSerive
+@Enforce(\{someService.isRightNumber(number) && someOtherService.isRightName(name)\})
+def someMethod(long number, String name) \{
+    println 'nice'
+\}
+{code}
 
-    //The failure closure will get called
-    @Enforce(value = { false }, failure = { throw new EnforcerException("nice") })
-    def method3() {
-        throw new EnforcerException("this shouldn't happen on method3")
-    }
-
-    //The success closure will get called
-    @Enforce(value = { true }, failure = { throw new EnforcerException("not nice") }, success = { println "nice" })
-    def method4() {
-
-    }
-
-    //The failure closure will get called
-    @Enforce(value = { false }, failure = { throw new EnforcerException("nice") }, success = { println "not nice" })
-    def method5() {
-        throw new EnforcerException("this shouldn't happen on method5")
-    }
-
-    //checking a variable
-    @Enforce({ number == 5 })
-    def method6(def number) {
-        println 'nice'
-    }
-
-    // an example using services
-    def someService
-    def someOtherSerive
-    @Enforce({someService.isRightNumber(number) && someOtherService.isRightName(name)})
-    def someMethod(long number, String name) {
-        println 'nice'
-    }
-
-    //an example using hasDomainRole and hasRole
-    @Enforce({hasDomainRole('owner', 'Sprocket', 1, testUser) || hasRole('ROLE_ADMIN', testUser)})
-    def someMethod(Srocket sprocket) {
-        println 'nice'
-    }
-    {code}
+An example using hasDomainRole and hasRole
+{code:groovy}
+@Enforce(\{hasDomainRole('owner', spocket, testUser) || hasRole('ROLE_ADMIN', testUser)\})
+def someMethod(Srocket sprocket) \{
+    println 'nice'
+\}
+{code}

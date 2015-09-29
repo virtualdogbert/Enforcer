@@ -29,7 +29,7 @@ class EnforcerService implements RoleTrait,DomainRoleTrait{
     def grailsApplication
     def springSecurityService
 
-    def enforce(Closure predicate, Closure failure = { throw new EnforcerException("Access Denied") }, Closure success = { return true }) {
+    def enforce(Closure predicate, Closure failure = { -> throw new EnforcerException("Access Denied") }, Closure success = { -> true }) {
 
         if (Environment.current != Environment.TEST || grailsApplication.config.enforcer.enabled) {
             predicate.delegate = this

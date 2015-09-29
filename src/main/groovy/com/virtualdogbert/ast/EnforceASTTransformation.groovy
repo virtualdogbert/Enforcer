@@ -53,28 +53,28 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class EnforceASTTransformation extends AbstractASTTransformation {
+class EnforceASTTransformation extends AbstractASTTransformation {
 
     @Override
-    public void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
+    void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
         if (nodes.length != 2) return
-        if (nodes[0] instanceof AnnotationNode && nodes[1] instanceof MethodNode) {
-            MethodNode methodNode = (MethodNode) nodes[1]
-            ClassNode beforeNode = new ClassNode(Enforce.class)
+        if (!(nodes[0] instanceof AnnotationNode && nodes[1] instanceof MethodNode)) return
 
-            for (AnnotationNode annotationNode : methodNode.getAnnotations(beforeNode)) {
+        MethodNode methodNode = (MethodNode) nodes[1]
+        ClassNode beforeNode = new ClassNode(Enforce)
 
-                ListExpression params = new ListExpression(getParamsList(annotationNode.members))
-                BlockStatement methodBody = (BlockStatement) methodNode.getCode()
-                List statements = methodBody.getStatements()
-                statements.add(0, createEnforcerCall(params))
-                break
-            }
+        for (AnnotationNode annotationNode : methodNode.getAnnotations(beforeNode)) {
 
-            VariableScopeVisitor scopeVisitor = new VariableScopeVisitor(sourceUnit)
-            sourceUnit.AST.classes.each {
-                scopeVisitor.visitClass(it)
-            }
+            ListExpression params = new ListExpression(getParamsList(annotationNode.members))
+            BlockStatement methodBody = (BlockStatement) methodNode.getCode()
+            List statements = methodBody.getStatements()
+            statements.add(0, createEnforcerCall(params))
+            break
+        }
+
+        VariableScopeVisitor scopeVisitor = new VariableScopeVisitor(sourceUnit)
+        sourceUnit.AST.classes.each { ClassNode classNode ->
+            scopeVisitor.visitClass(classNode)
         }
     }
 
@@ -99,9 +99,9 @@ public class EnforceASTTransformation extends AbstractASTTransformation {
     }
 
     private Statement createEnforcerCall(ListExpression params) {
-        ClassNode holder = new ClassNode(Holders.class)
+        ClassNode holder = new ClassNode(Holders)
         Expression context = new StaticMethodCallExpression(holder, "getApplicationContext", ArgumentListExpression.EMPTY_ARGUMENTS)
-        Expression service = new MethodCallExpression(context, "getBean", new ConstantExpression('enforcerService'));
+        Expression service = new MethodCallExpression(context, "getBean", new ConstantExpression('enforcerService'))
         Expression call = new MethodCallExpression(service, 'enforce', new ArgumentListExpression(params))
         return new ExpressionStatement(call)
     }

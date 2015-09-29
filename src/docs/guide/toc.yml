@@ -6,3 +6,9 @@ usage:
     title: Usage
 whyUseEnforcer: 
     title: Why Use Enforcer
+extendingEnforcer:
+    title: Entending Eforcer
+testingEnforcer:
+    title: Testing Enforcer
+enforcerAST:
+    title: Taking a look at the Enforce AST code
