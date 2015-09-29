@@ -36,6 +36,15 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/whyUseEnforcer.html"><strong>4</strong><span>Why Use Enforcer</span></a>
                     </div>
                     
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/extendingEnforcer.html"><strong>5</strong><span>Entending Eforcer</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/testingEnforcer.html"><strong>6</strong><span>Testing Enforcer</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/enforcerAST.html"><strong>7</strong><span>Taking a look at the Enforce AST code</span></a>
+                    </div>
+                    
                 </div>
             </div>
         </li>
@@ -84,45 +93,48 @@ function addJsClass() {
                 
 
 <h1 id="usage">3 Usage</h1>
-Here are some code examples of what you can do with the Enforcer plug-in&#58;<p class="paragraph"/>    <div class="code"><pre>//Check to domain role <span class="java&#45;keyword">for</span> the role owner on the Sprocket domain with an sprocket id or 1 <span class="java&#45;keyword">for</span> a user
-    service.enforce(&#123; hasDomainRole('owner', 'Sprocket', 1, testUser) &#125;)<p class="paragraph"/>    //Checks to see <span class="java&#45;keyword">if</span> the test user has the Role ROLE_USER
-    service.enforce(&#123; hasRole('ROLE_USER', testUser) &#125;)<p class="paragraph"/>
-    //The <span class="java&#45;keyword">default</span> closure <span class="java&#45;keyword">for</span> success will be called &#123;<span class="java&#45;keyword">return</span> <span class="java&#45;keyword">true</span>&#125; so the method will be executed
-    @Enforce(&#123; <span class="java&#45;keyword">true</span> &#125;)
-    def method1() &#123;
-        println 'nice'
-    &#125;<p class="paragraph"/>    //The <span class="java&#45;keyword">default</span> closure <span class="java&#45;keyword">for</span> success will be called &#123;<span class="java&#45;keyword">return</span> <span class="java&#45;keyword">true</span>&#125; so the method will be executed
-    //in <span class="java&#45;keyword">this</span> example you see <span class="java&#45;keyword">if</span> your using more than just the predicate closure  you need to specify
-    //the names of the parameters. Also predicate is named value, which facilitates the above example,
-    //so in that <span class="java&#45;keyword">case</span> you don't have to specify the parameters name, but here you <span class="java&#45;keyword">do</span>.
-    @Enforce(value = &#123; <span class="java&#45;keyword">true</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"not nice"</span>) &#125;)
-    def method2() &#123;
-        println 'nice'
-    &#125;<p class="paragraph"/>    //The failure closure will get called
-    @Enforce(value = &#123; <span class="java&#45;keyword">false</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"nice"</span>) &#125;)
-    def method3() &#123;
-        <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"<span class="java&#45;keyword">this</span> shouldn't happen on method3"</span>)
-    &#125;<p class="paragraph"/>    //The success closure will get called
-    @Enforce(value = &#123; <span class="java&#45;keyword">true</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"not nice"</span>) &#125;, success = &#123; println <span class="java&#45;quote">"nice"</span> &#125;)
-    def method4() &#123;<p class="paragraph"/>    &#125;<p class="paragraph"/>    //The failure closure will get called
-    @Enforce(value = &#123; <span class="java&#45;keyword">false</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"nice"</span>) &#125;, success = &#123; println <span class="java&#45;quote">"not nice"</span> &#125;)
-    def method5() &#123;
-        <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"<span class="java&#45;keyword">this</span> shouldn't happen on method5"</span>)
-    &#125;<p class="paragraph"/>    //checking a variable
-    @Enforce(&#123; number == 5 &#125;)
-    def method6(def number) &#123;
-        println 'nice'
-    &#125;<p class="paragraph"/>    // an example using services
-    def someService
-    def someOtherSerive
-    @Enforce(&#123;someService.isRightNumber(number) &#38;&#38; someOtherService.isRightName(name)&#125;)
-    def someMethod(<span class="java&#45;object">long</span> number, <span class="java&#45;object">String</span> name) &#123;
-        println 'nice'
-    &#125;<p class="paragraph"/>    //an example using hasDomainRole and hasRole
-    @Enforce(&#123;hasDomainRole('owner', 'Sprocket', 1, testUser) || hasRole('ROLE_ADMIN', testUser)&#125;)
-    def someMethod(Srocket sprocket) &#123;
-        println 'nice'
-    &#125;</pre></div>
+Here are some code examples of what you can do with the Enforcer plug-in&#58;<p class="paragraph"/>
+Check to domain role for the role owner on the Sprocket domain instance for a user
+<div class="code"><pre>def enforcerService
+enforcerService.enforce(&#123; hasDomainRole('owner', sprocket, testUser) &#125;)</pre></div><p class="paragraph"/>Checks to see if the test user has the Role ROLE_USER
+<div class="code"><pre>def enforcerService
+enforcerService.enforce(&#123; hasRole('ROLE_USER', testUser) &#125;)</pre></div><p class="paragraph"/>The default closure for success will be called &#123;return true&#125; so the method will be executed
+<div class="code"><pre>@Enforce(&#123; <span class="java&#45;keyword">true</span> &#125;)
+def method1() &#123;
+    println 'nice'
+&#125;</pre></div><p class="paragraph"/>The default closure for success will be called {return true} so the method will be executed
+in this example you see if your using more than just the predicate closure  you need to specify
+the names of the parameters. Also predicate is named value, which facilitates the above example,
+so in that case you don't have to specify the parameters name, but here you do.
+<div class="code"><pre>@Enforce(value = &#123; <span class="java&#45;keyword">true</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"not nice"</span>) &#125;)
+def method2() &#123;
+    println 'nice'
+&#125;</pre></div><p class="paragraph"/>The failure closure will get called
+<div class="code"><pre>@Enforce(value = &#123; <span class="java&#45;keyword">false</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"nice"</span>) &#125;)
+def method3() &#123;
+    <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"<span class="java&#45;keyword">this</span> shouldn't happen on method3"</span>)
+&#125;</pre></div><p class="paragraph"/>The success closure will get called
+<div class="code"><pre>@Enforce(value = &#123; <span class="java&#45;keyword">true</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"not nice"</span>) &#125;, success = &#123; println <span class="java&#45;quote">"nice"</span> &#125;)
+def method4() &#123;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>The failure closure will get called
+<div class="code"><pre>@Enforce(value = &#123; <span class="java&#45;keyword">false</span> &#125;, failure = &#123; <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"nice"</span>) &#125;, success = &#123; println <span class="java&#45;quote">"not nice"</span> &#125;)
+def method5() &#123;
+    <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> EnforcerException(<span class="java&#45;quote">"<span class="java&#45;keyword">this</span> shouldn't happen on method5"</span>)
+&#125;</pre></div><p class="paragraph"/>
+Checking a variable
+<div class="code"><pre>@Enforce(&#123; number == 5 &#125;)
+def method6(def number) &#123;
+    println 'nice'
+&#125;</pre></div><p class="paragraph"/>An example using services
+<div class="code"><pre>def someService
+def someOtherSerive
+@Enforce(&#123;someService.isRightNumber(number) &#38;&#38; someOtherService.isRightName(name)&#125;)
+def someMethod(<span class="java&#45;object">long</span> number, <span class="java&#45;object">String</span> name) &#123;
+    println 'nice'
+&#125;</pre></div><p class="paragraph"/>An example using hasDomainRole and hasRole
+<div class="code"><pre>@Enforce(&#123;hasDomainRole('owner', spocket, testUser) || hasRole('ROLE_ADMIN', testUser)&#125;)
+def someMethod(Srocket sprocket) &#123;
+    println 'nice'
+&#125;</pre></div>
 
 
 
