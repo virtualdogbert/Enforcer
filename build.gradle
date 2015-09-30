@@ -16,8 +16,7 @@ plugins {
     id "com.jfrog.bintray" version "1.2"
 }
 
-version "0.3.1"
-group "org.grails.plugins"
+
 
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
@@ -27,6 +26,26 @@ apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-doc"
 apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
 apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
+
+
+version "0.3.1"
+group "virtualdogbert.plugins"
+
+bintray {
+  pkg {
+    userOrg = 'virtualdogbert'
+    repo = 'plugins'
+    name = "$project.group:$project.name"
+    issueTrackerUrl = "https://github.com/virtualdogbert/Enforcer/issues"
+    vcsUrl = "https://github.com/virtualdogbert/Enforcer"
+    websiteUrl = "https://virtualdogbert.github.io/Enforcer"
+    licenses = ['Apache-2.0']
+    version {
+      attributes = ['grails-plugin': "$project.group:$project.name"]
+      name = project.version
+    }
+  }
+}
 
 ext {
     grailsVersion = project.grailsVersion
