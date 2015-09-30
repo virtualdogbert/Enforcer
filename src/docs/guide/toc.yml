@@ -7,7 +7,7 @@ usage:
 whyUseEnforcer: 
     title: Why Use Enforcer
 extendingEnforcer:
-    title: Entending Eforcer
+    title: Entending Enforcer
 testingEnforcer:
     title: Testing Enforcer
 enforcerAST:
