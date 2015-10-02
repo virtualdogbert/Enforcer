@@ -29,7 +29,7 @@ apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/m
 
 
 version "0.3.1"
-group "virtualdogbert.plugins"
+group "org.grails.plugins"
 
 bintray {
   pkg {
