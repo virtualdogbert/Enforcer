@@ -36,7 +36,7 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/whyUseEnforcer.html"><strong>4</strong><span>Why Use Enforcer</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/extendingEnforcer.html"><strong>5</strong><span>Entending Eforcer</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/extendingEnforcer.html"><strong>5</strong><span>Extending Enforcer</span></a>
                     </div>
                     
                     <div class="toc-item" style="margin-left:0"><a href="../guide/testingEnforcer.html"><strong>6</strong><span>Testing Enforcer</span></a>
@@ -91,9 +91,6 @@ function addJsClass() {
                 
 
 <h1 id="enforcerAST">7 Taking a look at the Enforce AST code</h1>
-<p class="paragraph"/>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_jmV_l373Fo" frameborder="0" allowfullscreen></iframe>
-<p class="paragraph"/>
 The Enforcer AST transform Enforce allows you to put enforcer checks on methods, making then distinguishable from the main logic as security checks.<p class="paragraph"/><h2>How then Enforce AST Transform was built</h2><p class="paragraph"/>The Enforce Transform was built in the testAst project:<p class="paragraph"/><a href="https://github.com/virtualdogbert/testAst" target="blank">Enforcer testAST github</a><p class="paragraph"/>Using the ./scripts/_Events.groovy eventCompileStart hook to precompile the Enforce transform. If you import this project into Intellij You will be
 able to set break point in the AST transform and Intellij will pick them up, which make debugging AST transforms a lot easier.  I also used the 
 Grooy/Grails Console, and the Inspect AST mode to see, what statement and expressions make up the code I wanted to write.

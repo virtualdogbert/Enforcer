@@ -1,3 +1,3 @@
 After you run the Enforcer quick start script, in your services you will have then EnforcerService, the RoleTrait and the DomainRole Trait.  
-You can add function to eiter of the traits, or add your own traits.  The traits should just be seen as a suggested starting point. You could add
-whatever you want like project, group, or feature flag checks.
+You can add a method to eiter of the traits, or add your own traits.  The traits should just be seen as a suggested starting point. You could add
+whatever you want like: project, group, or feature flag checks.
