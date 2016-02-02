@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 
 
 
-class Feature${domainName} {
+class FeatureFlag${domainName} {
 
     FeatureFlag featureFlag
     ${domainName} ${lowerDomainName}
