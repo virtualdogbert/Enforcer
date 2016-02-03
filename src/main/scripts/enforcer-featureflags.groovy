@@ -34,6 +34,8 @@ domains = args[1].split(',').collect{
 dir = args[0].replace('.', '/')
 importDomains = ''
 checkOtherFeatureFlags = ''
+otherFeatureFlags = ''
+listFeatureFlags = ''
 
 addStatus "Installing Enforcer feature flags"
 
@@ -45,6 +47,10 @@ render template: template("FeatureFlag.groovy"),
 
 domains.each{
     importDomains += "import ${it.domainPackage}${it.domainName}\n"
+    otherFeatureFlags += """        Map ${it.lowerDomainName}s =  [:]
+        FeatureFlag${it.domainName}.list.each{${it.lowerDomainName}s[it.${it.lowerDomainName}.name/*may need changin*/]=[featureName:it.feature.name,enabled:it.enabled]}
+\n"""
+    listFeatureFlags += "                ${it.lowerDomainName}s: ${it.lowerDomainName}s,\n"
     checkOtherFeatureFlags += "        else if(Feature${it.domainName}.findByFeatureFlagAnd${it.domainName}(featureFlag,?????)?.enabled){return true}\n"
     render template: template("FeatureFlagDomain.groovy"),
             destination: file("grails-app/domain/${dir}/FeatureFlag${it.domainName}.groovy"),
@@ -54,7 +60,17 @@ domains.each{
 
 render template: template("FeatureFlagTrait.groovy"),
         destination: file("grails-app/services/${dir}/FeatureFlagTrait.groovy"),
-        model: [packageName: args[0], importDomains: importDomains, checkOtherFeatureFlags:checkOtherFeatureFlags],
+        model: [packageName: args[0], importDomains: importDomains, otherFeatureFlags: otherFeatureFlags, listFeatureFlags:listFeatureFlags, checkOtherFeatureFlags:checkOtherFeatureFlags],
+        overwrite: true
+
+render template: template("FeatureFlagService.groovy"),
+        destination: file("grails-app/services/${dir}/FeatureFlagService.groovy"),
+        model: [packageName: args[0], importDomains: importDomains, otherFeatureFlags:otherFeatureFlags, listFeatureFlags:listFeatureFlags],
+        overwrite: true
+
+render template: template("FeatureFlagController.groovy"),
+        destination: file("grails-app/controllers/${dir}/FeatureFlagController.groovy"),
+        model: [packageName: args[0]],
         overwrite: true
 
 

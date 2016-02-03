@@ -17,21 +17,40 @@
  *  under the License.
  */
 package ${ packageName }
+import ${packageName}.FeatureFlag
+${importDomains}
 
 class FeatureFlagService implements FeatureFlagTrait{
-    def list(){
+    Map getFeatureFlags(){
+        Map featureFlags = [:]
+        FeatureFlag.list.each{featureFlags[it.name]=it.enabled}
+${otherFeatureFlags}
 
+        [
+                featureFlags:featureFlags,
+${listFeatureFlags}
+        ]
     }
 
-    ${findFlagsMethods}
 
     def createFlag(String name){
-
+        new FeatureFlag(name:name).save()
     }
+
+    //\${createOtherFlags}
 
     def deleteFlag(String name){
-
+        //TODO write code to delete other flags \${deleteOtherSubFlags}
+        FeatureFlag.findByName(name).delete()
     }
 
-    ${setFlagsMethods}
+    //\${deleteOtherFlags}
+
+    def setFeatureFlag(String name, Boolean enable){
+        FeatureFlag featureFlag = FeatureFlag.findByName(name)
+        featureFlags.enabled= enable
+        featureFlag.save()
+    }
+
+    //\${setFlagsMethods}
 }

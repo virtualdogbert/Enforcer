@@ -19,19 +19,26 @@
 package ${ packageName }
 
 class FeatureFlagController{
-    def list(){
+    FeatureFlagService featureFlagService
 
-        }
+    def get(){
+        featureFlagService.getFeatureFlags()
+    }
 
-        ${findFlagsActions}
+    def createFlag(){
+        featureFlagService.createFlag(params.name)
+    }
 
-        def createFlag(String name){
+    //\${createOtherFlags}
 
-        }
+    def deleteFlag(){
+        featureFlagService.deleteFlag(params.name)
+    }
 
-        def deleteFlag(String name){
+    //\${deleteOtherFlags}
 
-        }
-
-        ${setFlagsActions}
+    def setFeatureFlag(){
+        featureFlagService.setFeatureFlag(params.Name, Boolean.parseBoolean(params.enabled))
+    }
+    //\${setFlagsActions}
 }
