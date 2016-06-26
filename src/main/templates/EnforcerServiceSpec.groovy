@@ -55,8 +55,7 @@ class EnforcerServiceSpec extends Specification {
         service.springSecurityService = new Expando()
         service.springSecurityService.getCurrentUser = {-> testUser }
 
-        service.grailsApplication = new DefaultGrailsApplication()
-        service.grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
+        grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
     }
 
     //Testing EnforcerService
@@ -189,6 +188,22 @@ class EnforcerServiceSpec extends Specification {
             true
     }
 
+    void 'test class protection'() {
+        setup:
+        TestEnforcer t = new TestEnforcer()
+        when:
+        t.clazzProtectedMethod1()
+        then:
+        thrown EnforcerException
+        when:
+        t.clazzProtectedMethod2()
+        then:
+        thrown EnforcerException
+        when:
+        t.methodProtectedMethod1()
+        then:
+        true
+    }
 
     //Test methods for testing Enforce AST transform
     @Enforce({ true })
@@ -203,7 +218,7 @@ class EnforcerServiceSpec extends Specification {
 
     @Enforce(value = { false }, failure = { throw new EnforcerException("nice") })
     def method3() {
-        throw new EnforcerException("this shouldn't happen on method3")
+        throw new Exception("this shouldn't happen on method3")
     }
 
     @Enforce(value = { true }, failure = { throw new EnforcerException("not nice") }, success = { println "nice" })
@@ -213,12 +228,29 @@ class EnforcerServiceSpec extends Specification {
 
     @Enforce(value = { false }, failure = { throw new EnforcerException("nice") }, success = { println "not nice" })
     def method5() {
-        throw new EnforcerException("this shouldn't happen on method5")
+        throw new Exception("this shouldn't happen on method5")
     }
 
     @Enforce({ number == 5 })
     def method6(number) {
         println 'nice'
+    }
+
+    @Enforce({ false })
+    class TestEnforcer {
+        @Enforce(value = { false }, failure = { throw new EnforcerException("nice") })
+        def clazzProtectedMethod1() {
+            println 'not nice'
+        }
+
+        def clazzProtectedMethod2() {
+            println 'not nice'
+        }
+
+        @Enforce({ true })
+        def methodProtectedMethod1() {
+            println 'nice'
+        }
     }
 }
 
