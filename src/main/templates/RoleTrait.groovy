@@ -28,16 +28,17 @@ trait RoleTrait {
 
     /**
      * This method check to see if a user had a given role
-     * 
+     *
      * @param role the role/authority to check
      * @param user the user to check to see if it has a role(defaulted to springSecurityService.currentUser)
      * @return true if the user does had the role, false otherwise.
      */
     boolean hasRole(String role, User user = null){
         if(!user){
-            user = springSecurityService.currentUser
+            return SpringSecurityUtils.ifAllGranted(role)
         }
 
         role in user.authorities*.authority
+        //role in user.authorities*.authority || role in user.groups.authorities*.authority
     }
 }
