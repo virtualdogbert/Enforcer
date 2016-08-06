@@ -138,7 +138,7 @@ class EnforcerServiceSpec extends Specification {
             true
     }
 
-    void 'test enforce hasRole("ROLE_ADMIN", testUser)'(){
+    void 'test enforce hasRole("ROLE_SUPER_USER", testUser)'(){
         when:
             service.enforce({ hasRole('ROLE_SUPER_USER', testUser) })
         then:

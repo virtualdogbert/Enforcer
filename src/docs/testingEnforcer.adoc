@@ -1,8 +1,11 @@
+== Testing
+video::viegnYvVXGQ[youtube, width=640, height=360]
+
 The quick start will install a unit test EnforcerServiceSpec.groovy, which will allow you to test the Enforcer service and the Enforce AST transform.
 By default the test for a DomainRole is commented out, you will have to comment it back in and replace the Sprocket domain, with one from your own application.
 You will also have to add that domain class to the mock section. Here are some example implementations of the enforcer unit test.
 
 
-[Enforcer Unit Tests, in example app(grails2) |https://github.com/virtualdogbert/testEnforcer2/blob/master/test/unit/services/com/security/EnforcerServiceSpec.groovy]
+https://github.com/virtualdogbert/testEnforcer2/blob/master/test/unit/services/com/security/EnforcerServiceSpec.groovy[Enforcer Unit Tests, in example app(grails2)]
 
-[Enforcer Unit Tests, in example app(grails3) |https://github.com/virtualdogbert/testEnforcer3/blob/master/src/test/groovy/unit/services/com/security/EnforcerServiceSpec.groovy]
+https://github.com/virtualdogbert/testEnforcer3/blob/master/src/test/groovy/unit/services/com/security/EnforcerServiceSpec.groovy[Enforcer Unit Tests, in example app(grails3)]

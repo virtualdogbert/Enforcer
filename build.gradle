@@ -8,6 +8,8 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
     }
 }
 
@@ -23,28 +25,28 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "spring-boot"
 apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.grails-doc"
-apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
+apply plugin: 'org.asciidoctor.convert'
+apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
+apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
 
 
 version "1.3.1"
 group "org.grails.plugins"
 
 bintray {
-  pkg {
-    userOrg = 'virtualdogbert'
-    repo = 'plugins'
-    name = "$project.group:$project.name"
-    issueTrackerUrl = "https://github.com/virtualdogbert/Enforcer/issues"
-    vcsUrl = "https://github.com/virtualdogbert/Enforcer"
-    websiteUrl = "https://virtualdogbert.github.io/Enforcer"
-    licenses = ['Apache-2.0']
-    version {
-      attributes = ['grails-plugin': "$project.group:$project.name"]
-      name = project.version
+    pkg {
+        userOrg = 'virtualdogbert'
+        repo = 'plugins'
+        name = "$project.group:$project.name"
+        issueTrackerUrl = "https://github.com/virtualdogbert/Enforcer/issues"
+        vcsUrl = "https://github.com/virtualdogbert/Enforcer"
+        websiteUrl = "https://virtualdogbert.github.io/Enforcer"
+        licenses = ['Apache-2.0']
+        version {
+            attributes = ['grails-plugin': "$project.group:$project.name"]
+            name = project.version
+        }
     }
-  }
 }
 
 ext {
@@ -86,4 +88,59 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
+}
+
+def asciidoctorAttributes = [
+        copyright           : 'Apache License, Version 2.0',
+        docinfo1            : 'true',
+        doctype             : 'book',
+        encoding            : 'utf-8',
+        'front-cover-image' : 'image:cover.png[Front Cover,800,600]',
+        icons               : 'font',
+        id                  : project.name + ':' + project.version,
+        idprefix            : '',
+        idseparator         : '-',
+        lang                : 'en',
+        linkattrs           : true,
+        numbered            : '',
+        producer            : 'Asciidoctor',
+        revnumber           : project.version,
+        setanchors          : true,
+        'source-highlighter': 'prettify',
+        toc                 : 'left',
+        toc2                : '',
+        toclevels           : '2'
+]
+
+import org.asciidoctor.gradle.AsciidoctorTask
+
+tasks.withType(AsciidoctorTask) {
+    attributes asciidoctorAttributes
+    outputDir new File(buildDir, 'docs')
+    separateOutputDirs = false
+    sourceDir = file('src/docs')
+    sources {
+        include 'index.adoc'
+    }
+}
+
+task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML, and PDF') {
+    backends 'html5', 'pdf'
+}
+
+task docs(dependsOn: [asciidoc]) << {
+
+    File dir = new File(buildDir, 'docs')
+    ['pdf'].each { String ext ->
+        File f = new File(dir, 'index.' + ext)
+        if (f.exists()) {
+            f.renameTo new File(dir, project.name + '-' + project.version + '.' + ext)
+        }
+    }
+
+    copy {
+        from 'src/docs'
+        into new File(buildDir, 'docs').path
+        include '**/*.png'
+    }
 }
