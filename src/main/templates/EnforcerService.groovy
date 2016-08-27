@@ -56,4 +56,16 @@ class EnforcerService implements RoleTrait,DomainRoleTrait{
         }
 
     }
+
+    /**
+     * this is used to filter the values of a return statement. This is meant to be used by the ReinforceFilter AST transform
+     *
+     * @param filter a closure that takes and object value, and filters it, and returns the filtered value.
+     * @param value the object to be filtered.
+     *
+     * @return the filtered value.
+     */
+    Object ReinforceFilter(Closure filter, Object value) {
+        filter(value)
+    }
 }

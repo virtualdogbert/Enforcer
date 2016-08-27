@@ -57,6 +57,16 @@ render template: template("EnforcerServiceSpec.groovy"),
         model: model,
         overwrite: true
 
+render template: template("EnforcerAnnotationSpec.groovy"),
+        destination: file("src/test/groovy/unit/services/${dir}/EnforcerAnnotationSpec.groovy"),
+        model: model,
+        overwrite: true
+
+render template: template("ReinforceAnnotationSpec.groovy"),
+        destination: file("src/test/groovy/unit/services/${dir}/ReinforceAnnotationSpec.groovy"),
+        model: model,
+        overwrite: true
+
 
 
 addStatus "Installing Enforcer defaults complete"
