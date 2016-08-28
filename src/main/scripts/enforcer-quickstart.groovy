@@ -30,39 +30,39 @@ dir = args[0].replace('.', '/')
 addStatus "Installing Enforcer defaults"
 
 
-render template: template("DomainRole.groovy"),
+render template: template("DomainRole.groovy.template"),
         destination: file("grails-app/domain/${dir}/DomainRole.groovy"),
         model: model,
         overwrite: true
 
-render template: template("DomainRoleTrait.groovy"),
+render template: template("DomainRoleTrait.groovy.template"),
         destination: file("grails-app/services/${dir}/DomainRoleTrait.groovy"),
         model: model,
         overwrite: true
 
-render template: template("EnforcerService.groovy"),
+render template: template("EnforcerService.groovy.template"),
         destination: file("grails-app/services/${dir}/EnforcerService.groovy"),
         model: model,
         overwrite: true
 
-render template: template("RoleTrait.groovy"),
+render template: template("RoleTrait.groovy.template"),
         destination: file("grails-app/services/${dir}/RoleTrait.groovy"),
         model: model,
         overwrite: true
 
 
 
-render template: template("EnforcerServiceSpec.groovy"),
+render template: template("EnforcerServiceSpec.groovy.template"),
         destination: file("src/test/groovy/unit/services/${dir}/EnforcerServiceSpec.groovy"),
         model: model,
         overwrite: true
 
-render template: template("EnforcerAnnotationSpec.groovy"),
+render template: template("EnforcerAnnotationSpec.groovy.template"),
         destination: file("src/test/groovy/unit/services/${dir}/EnforcerAnnotationSpec.groovy"),
         model: model,
         overwrite: true
 
-render template: template("ReinforceAnnotationSpec.groovy"),
+render template: template("ReinforceAnnotationSpec.groovy.template"),
         destination: file("src/test/groovy/unit/services/${dir}/ReinforceAnnotationSpec.groovy"),
         model: model,
         overwrite: true
