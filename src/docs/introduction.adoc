@@ -5,23 +5,32 @@ ____
 
 video::S1gxqk55f2A[youtube, width=640, height=360]
 
-The Enforcer Plugin, is a light weight, easier to maintain/extend/use, alternative to Spring Security ACL. The plugin works off of a EnforcerService
-and an Enforce Ast transform, The service take s up to 3 closures, a predicate, a failure(defaults to an EnforcerException if not specified) and a
+The Enforcer Plugin, gives you the tools to enforce business rules, and or permissions. It light weight, easy to  maintain, extend and, use.
+The plugin works off of a EnforcerService in conjunction with the  Enforce, Reinforce, and  ReinforceFilter Annotations(AST transforms).
+
+
+For Enforcement the service takes up to 3 closures, a predicate, a failure(defaults to an EnforcerException if not specified) and a
 success(defaulted to a closure that returns true). The predicate is evaluated, if it returns true, the the success closure is evaluated, else the
-failure closure is evaluated. With this you can enforce any business rule you want. The EnforcerService implements two traits, RoleTrait, and
-DomainRoleTrait. This is so you can use the methods in the traits without injecting any extra calls to services, which makes the calls to the
-service less verbose, and easier to read. The preferred method of extending the Enforcer Service is to add new methods to the traits, modify the
-existing methods in the traits, or add a new trait.
+failure closure is evaluated. With this you can enforce any business rule you need. Reinforce does the same, but is injected at the end of the
+method before the return statement, rather than the beginning. The ReinforceFilter allows you to filter the returned value of any method.
+
+The EnforcerService, by default implements two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods
+in the traits without injecting any extra calls to services, which makes the calls to the service less verbose, and
+easier to read. The preferred method of extending the Enforcer Service is to add new methods to the traits, modify the
+existing methods in the traits, or add a new trait. These traits make the EnforcerService, and by extension the annotations
+into a DSL for enforcing business rules/permission
 
 
-The AST Transform Enforce, can be applied to a method, or a class and injects a call to the EnforcerService(usage shown in the usage section). If the AST
-transform is applied to the class level it's applied to every method in the class, but can be overridden by using it at the method level, The AST transform Enforce,
-is more for the aesthetic of making a clear distinction from business rules/security, and your main code, but has the same power as the EnforcerService.
-From the AST transform you can call any service, and use any variable pass into the annotated method.
+The annotations Enforce and Reinforce can be applied to any class or method. When applying the annotation to a class, it
+will then be applied to all the methods in the class, and be overridden if it is also applied at any of the methods. The
+ReinforceFilter can be applied to any method that returns a valueThe. The Annotations are AST transforms so they are applied
+at compile time, without any third party annotation processor. The annotations make it clear when you are enforcing
+business rules which gets out of the way of your logic code.
 
-The Enforcer plugin was inspired by issues with Spring Security ACL, and trying to figure out a better, and more flexible way of dealing with business rules.
+The Enforcer plugin was inspired by the limitations, and rigidity  of other frameworks, and the thought that a better
+alternative should exist.
 
-Also Zed Shaw's The ACL is Dead(take this with a grain of salt):
+Also Zed Shaw's The ACL is Dead, take this with a grain of salt, it tends to veer off course, but does bring up some valid points:
 
 video::2723800[vimeo, width=640, height=360]
 https://vimeo.com/2723800[The ACL is Dead]

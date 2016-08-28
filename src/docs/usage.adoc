@@ -5,7 +5,7 @@ video::Dqimwk8uX5A[youtube, width=640, height=360]
 Here are some code examples of what you can do with the Enforcer plug-in:
 
 
-Check to domain role for the role owner on the Sprocket domain instance for a user
+Check to domain role for the role owner on the Sprocket domain instance for a user:
 
 [source,groovy]
 ----
@@ -13,7 +13,7 @@ def enforcerService
 enforcerService.enforce({ hasDomainRole('owner', sprocket, testUser) })
 ----
 
-Checks to see if the test user has the Role ROLE_USER
+Checks to see if the test user has the Role ROLE_USER:
 
 [source,groovy]
 ----
@@ -21,89 +21,40 @@ def enforcerService
 enforcerService.enforce({ hasRole('ROLE_USER', testUser) })
 ----
 
-The default closure for success will be called {return true} so the method will be executed
+Those same checks on a method using @Enforce:
 
 [source,groovy]
 ----
-@Enforce({ true })
-def method1() {
-    println 'nice'
+@Enforce({hasRole('ROLE_USER', testUser)  && hasDomainRole('owner', sprocket, testUser)})
+def someMethod(){
+    //some logic
 }
 ----
 
-The default closure for success will be called {return true} so the method will be executed
-in this example you see if your using more than just the predicate closure  you need to specify
-the names of the parameters. Also predicate is named value, which facilitates the above example,
-so in that case you don't have to specify the parameters name, but here you do.
+Or the same check using Reinforce:
 
 [source,groovy]
 ----
-@Enforce(value = { true }, failure = { throw new EnforcerException("not nice") })
-def method2() {
-    println 'nice'
+@Reinforce({hasRole('ROLE_USER', testUser)  && hasDomainRole('owner', sprocket, testUser)})
+def someMethod(){
+    //some logic
 }
 ----
 
-The failure closure will get called
+An example of ReinforceFilter which takes the original value that would be returned, and the result of the closure will
+take that returned values place, be careful that that returned value of the closure matches the returned value of the
+method, if you are not using def:
 
 [source,groovy]
 ----
-@Enforce(value = { false }, failure = { throw new EnforcerException("nice") })
-def method3() {
-    throw new EnforcerException("this shouldn't happen on method3")
-}
-----
-
-The success closure will get called
-
-[source,groovy]
-----
-@Enforce(value = { true }, failure = { throw new EnforcerException("not nice") }, success = { println "nice" })
-def method4() {
-
-}
-----
-
-The failure closure will get called
-
-[source,groovy]
-----
-@Enforce(value = { false }, failure = { throw new EnforcerException("nice") }, success = { println "not nice" })
-def method5() {
-    throw new EnforcerException("this shouldn't happen on method5")
-}
+@ReinforceFilter({ Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })
+    List<Integer> reinforceFilter() {
+        [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    }
 ----
 
 
-Checking a variable
-
-[source,groovy]
-----
-@Enforce({ number == 5 })
-def method6(def number) {
-    println 'nice'
-}
-----
-
-An example using services
-
-[source,groovy]
-----
-def someService
-def someOtherService
-@Enforce({someService.isRightNumber(number) && someOtherService.isRightName(name)})
-def someMethod(long number, String name) {
-    println 'nice'
-}
-----
-
-An example using hasDomainRole and hasRole
-
-
-[source,groovy]
-----
-@Enforce({hasDomainRole('owner', sprocket, testUser) || hasRole('ROLE_ADMIN', testUser)})
-def someMethod(Sprocket sprocket) {
-    println 'nice'
-}
-----
+For More examples check out the unit tests:
+https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerServiceSpec.groovy[EnforcerServiceSpec.groovy]
+https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerAnnotationSpec.groovy[EnforcerAnnotationSpec.groovy]
+https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/ReinforceAnnotationSpec.groovy[ReinforceAnnotationSpec.groovy]

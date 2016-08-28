@@ -1,29 +1,48 @@
-== Why use Enforcer
+== Why use Enforcer?
 
 video::h2sosla0C5k[youtube, width=640, height=360]
 
-So why would you want to use Enforcer? What's Wrong with Spring Security ACL?
+So why would you want to use Enforcer?
 
-Before I begin I want to say that Spring Security ACL had it's time, but I think we can do better, given a dynamic language like Groovy.
-I also think that some of the ideas could be portable to a Java 8 lambda syntax. They might not be as convenient, because you don't have Groovy's truth model,
+With Enforcer I try to set you up to be successful, in enforcing business rules/permissions, in a way that is easy to
+read,is expendable without the limitations I see in other frameworks. So lets take a look at alternatives, and how Enforcer
+addresses some of there limitations.
 
-=== Well lets take a look at the down sides, to using Spring Security ACL
+=== Spring Security ACL
 
 . It's annotations use the Spring EL language, in the form of a string, so... no compiler help, no IDE help(newer versions of Intellij may help with this), no syntax highlighting, and EL isn't as flexible as groovy.
-. It uses a "bit mask" for storing permission, while this is very efficient, but hard to read, also we're not in the 80's anymore, and disk is cheap.
+. It uses a "bit mask" for storing permission, while this is "efficient", but hard to read, also we're not in the 80's anymore, and disk is cheap.
 . It uses a highly normalized set for domains/tables for storing permission. This means that querying the db will involve many joins, which will slow down the writing and running of queries.
 . Updating permission especially in bulk can be really slow, because of the built-in caching. If you use direct SQL you have to invalidate the plug-ins internal cache.
-. The annotation only gets run of you call from a method outside the service, that you are calling to. This can lead to a false sense of security(spring proxy issue).
+. The annotation is a Spring Proxy, so it only gets called if you are calling from outside the class, the annotation is in. This can lead to a false sense of security, or false negatives.
 . If you are not using a hierarchy for your permission, which I don't see a config option for, you will end up with a lot of permissions in the db. I've seen it as bad and 400,000 permission entries for just over a 1000 containers.
 . Extending the plug-in is not straight forward. Adding new permissions isn't bad but you have to deal with the "bit mask". However if you want to add functions that can be called in the EL expression... good luck.  Adding new functions that you can call would involve some been overrides,  and extending classes. I've tried it twice and it didn't work either time.  I do thing however you maybe able to call services from within the EL, with the current version, but don't quote me on that.
 . It's somewhat hard to setup tests your annotations.
 
-=== Now in response to each, Enforcer:
+=== Shiro
+. I'll be honest I don't really get Shiro, and I haven't taken the time to understand it. The permissions aren't as readable as I would like.
+. I know the library of Shiro not the plugin does have annotations, but I suspect that they would have the same issue that the spring security one have being proxies.
+
+=== Drools
+. I never used it, but I haven't heard good things, and from what I can see the plugins are not being actively maintained.
+
+=== GContracts
+. It seems the last commit was 4 years ago, and it wan't meant to work with Grails:
+
+https://github.com/andresteingress/gcontracts/wiki/GContracts-in-Spring-and-Grails-Applications
+
+=== Enforcer in response:
 . Use a closure, so you have the full flexibility of groovy, your IDE, will help you and will do syntax highlighting.
-. The default DomainRole, which you don't have to use uses a string which is easy to read and query.
-. The DomainRole is denormalize, so that it will be quicker and involve less queries to read and write.
+. The default DomainRole, uses a string which is easy to read and query.
+. The DomainRole is denormalized, so that it will be quicker, and involves less queries to read, and write.
 . As said before DomainRole is denormalized so it's quick to update.
 . The Enforce AST transform/annotation runs every time a method it's annotation is called, unless your are running from the test environment.
 . DomainRole uses a hierarchy by default so you'll have less entries in the db, which will be easier to query, and migrate if you have too. That 400,000 for 1000 contains was reduced to 20,000 entries using a hierarchy.
 . Extending Enforcer is easy, by adding methods to either of the traits the EnforcerService uses, or adding your own trait, to just calling any service from with in the closure(s) you pass in.
 . Testing is easy see the EnforcerServiceSpec for examples.
+
+For the rest I don't see them as viable competition at this point, mainly, because most of them aren't being maintained.
+All of these tools had there usage, but I think it's time for something better, and in the future maybe a better plugin
+will be written, than Enforcer.
+
+

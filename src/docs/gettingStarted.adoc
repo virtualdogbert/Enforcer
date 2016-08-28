@@ -32,7 +32,7 @@ https://github.com/virtualdogbert/testEnforcer2[GitHub testEnforcer2]
 
 For Grails 3:
 
-https://github.com/virtualdogbert/testEnforcer3[GitHub testEnforcer3]
+https://github.com/virtualdogbert/Grails3Tutorial/tree/step_11_enforcer_plugin[GitHub Grails3Tutorial]
 
 ----
 The version scheme is Major.GrailsVersion.Minor

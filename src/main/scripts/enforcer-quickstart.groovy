@@ -18,7 +18,7 @@
  */
 import org.grails.cli.interactive.completers.DomainClassCompleter
 
-description("Installs default implmentaiton for Enforcer, whch can be changed/enhanced by the user") {
+description("Installs default implementation for Enforcer, which can be changed/enhanced by the user") {
     usage "grails enforcer-quickstart [package]"
     argument name: 'package', description: 'The name of the package to put the enforcer files under'
     completer DomainClassCompleter
@@ -50,8 +50,6 @@ render template: template("RoleTrait.groovy.template"),
         model: model,
         overwrite: true
 
-
-
 render template: template("EnforcerServiceSpec.groovy.template"),
         destination: file("src/test/groovy/unit/services/${dir}/EnforcerServiceSpec.groovy"),
         model: model,
@@ -66,7 +64,5 @@ render template: template("ReinforceAnnotationSpec.groovy.template"),
         destination: file("src/test/groovy/unit/services/${dir}/ReinforceAnnotationSpec.groovy"),
         model: model,
         overwrite: true
-
-
 
 addStatus "Installing Enforcer defaults complete"

@@ -6,7 +6,7 @@ class EnforcerGrailsPlugin extends Plugin {
     def grailsVersion = "3.0.4 > *"
     def title = "Enforcer"
     def author = "Tucker J. Pelletier AKA virtualdogbert"
-    def description = 'An alternative for Spring Security ACL, that is easier to implment, and extend.'
+    def description = 'A plugin for enforcing business rules/permissions, that works with Spring Security Core, is easier to implement, and extend. It can also be used as an alternative to Spring Security ACL'
     def profiles = ['web']
     def documentation = "https://virtualdogbert.github.io/Enforcer"
     def license = "APACHE"

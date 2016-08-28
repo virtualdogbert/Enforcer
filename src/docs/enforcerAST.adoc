@@ -1,8 +1,8 @@
-== The Enforcer AST
+== The Enforcer AST Transforms
 
 video::_jmV_l373Fo[youtube, width=640, height=360]
 
-The Enforcer AST transform Enforce allows you to put enforcer checks on methods, and classes, making then distinguishable from the main logic as security checks.
+The Enforcer AST transform Enforce allows you to put enforcer checks on methods, and classes, making then distinguishable from the main logic as business rule/security checks.
 
 === How the Enforce AST Transform was built
 
@@ -12,4 +12,5 @@ https://github.com/virtualdogbert/testAst[Enforcer testAST github]
 
 Using the ./scripts/_Events.groovy eventCompileStart hook to precompile the Enforce transform. If you import this project into Intellij You will be
 able to set break points in the AST transform, and Intellij will pick them up, which make debugging AST transforms a lot easier.  I also used the
-Groovy/Grails Console, and the Inspect AST mode to see, what statements and expressions make up the code I wanted to write.
+Groovy/Grails Console, and the Inspect AST mode to see, what statements and expressions make up the code I wanted to write. At some point I will
+upgrade the project to use Grails 3, and use gradle rather then the _Events.groovy.
