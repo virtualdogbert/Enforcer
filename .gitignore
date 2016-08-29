@@ -6,3 +6,4 @@ target
 *.zip*
 plugin.xml
 web-app
+.gradle

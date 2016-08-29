@@ -54,8 +54,8 @@ trait DomainRoleTrait {
                 viewer: ['viewer']
         ]
 
-        DomainRole domainRole = DomainRole.findByRoleAndDomainNameAndDomainIdAndUser(role, domainName, domainObject.id, user)
-        domainRole?.role in roleHierarchy[role]
+        DomainRole domainRole = DomainRole.findByDomainNameAndDomainIdAndUser(domainName, domainObject.id, user)
+        role in roleHierarchy[domainRole?.role]
     }
 
     /**

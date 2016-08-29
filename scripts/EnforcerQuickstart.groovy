@@ -12,9 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- //This is an altered copy of the s2quick start script from the spring security core plugin.
-import grails.util.GrailsNameUtils
-
+//This is an altered copy of the s2quick start script from the spring security core plugin.
 includeTargets << new File(enforcerPluginDir, 'scripts/_EnforcerCommon.groovy')
 
 USAGE = '''
@@ -28,59 +26,60 @@ includeTargets << grailsScript('_GrailsBootstrap')
 packageName = ''
 
 target(enforcerQuickstart: 'Creates artifacts for the Spring Security plugin') {
-	depends(checkVersion, configureProxy, packageApp, classpath)
+    depends(checkVersion, configureProxy, packageApp, classpath)
 
-	if (!configure()) {
-		return 1
-	}
+    if (!configure()) {
+        return 1
+    }
 
-	createDomains()
+    createDomains()
 }
 
 private boolean configure() {
 
-	def argValues = parseArgs()
-	if (!argValues) {
-		return false
-	}
+    def argValues = parseArgs()
+    if (!argValues) {
+        return false
+    }
 
-	if (argValues.size() == 1) {
-		(packageName) = argValues
-	} else {
-		return false
-	}
+    if (argValues.size() == 1) {
+        (packageName) = argValues
+    } else {
+        return false
+    }
 
 
-	templateAttributes = [packageName: packageName]
+    templateAttributes = [packageName: packageName]
 
-	true
+    true
 }
 
 private void createDomains() {
 
-	String dir = packageToDir(packageName)
-	String domainDir = "$appDir/domain/$dir"
-	String serviceDir = "$appDir/services/$dir"
-	String testDir = "$basedir/test/unit/services/$dir/"
-	generateFile "$templateDir/DomainRole.groovy", "${domainDir}DomainRole.groovy"
-	generateFile "$templateDir/DomainRoleTrait.groovy", "${serviceDir}DomainRoleTrait.groovy"
-	generateFile "$templateDir/EnforcerService.groovy", "${serviceDir}EnforcerService.groovy"
-	generateFile "$templateDir/EnforcerServiceSpec.groovy", "${testDir}EnforcerServiceSpec.groovy"
-	generateFile "$templateDir/RoleTrait.groovy", "${serviceDir}RoleTrait.groovy"
+    String dir = packageToDir(packageName)
+    String domainDir = "$appDir/domain/$dir"
+    String serviceDir = "$appDir/services/$dir"
+    String testDir = "$basedir/test/unit/services/$dir/"
+    generateFile "$templateDir/DomainRole.groovy.template", "${domainDir}DomainRole.groovy"
+    generateFile "$templateDir/DomainRoleTrait.groovy.template", "${serviceDir}DomainRoleTrait.groovy"
+    generateFile "$templateDir/EnforcerService.groovy.template", "${serviceDir}EnforcerService.groovy"
+    generateFile "$templateDir/EnforcerServiceSpec.groovy.template", "${testDir}EnforcerServiceSpec.groovy"
+    generateFile "$templateDir/EnforcerAnnotationSpec.groovy.template", "${testDir}EnforcerAnnotationSpec.groovy"
+    generateFile "$templateDir/ReinforceAnnotationSpec.groovy.template", "${testDir}ReinforceAnnotationSpec.groovy"
+    generateFile "$templateDir/RoleTrait.groovy.template", "${serviceDir}RoleTrait.groovy"
 }
 
 
-
 private parseArgs() {
-	def args = argsMap.params
+    def args = argsMap.params
 
-	if (1 == args.size()) {
-		printMessage "Creating Enforcer files in package ${args[0]}"
-		return args
-	}
+    if (1 == args.size()) {
+        printMessage "Creating Enforcer files in package ${args[0]}"
+        return args
+    }
 
-	errorMessage USAGE
-	null
+    errorMessage USAGE
+    null
 }
 
 setDefaultTarget 'enforcerQuickstart'

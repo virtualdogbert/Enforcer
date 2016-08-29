@@ -1,16 +1,27 @@
+/**
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 package services.${packageName}
 
-import ${packageName}.DomainRole
-import ${packageName}.Role
-import ${packageName}.User
-import ${packageName}.UserRole
-import ${packageName}.EnforcerService
-import com.virtualdogbert.ast.Enforce
+import ${packageName}.*
 import com.virtualdogbert.ast.EnforcerException
-import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import spock.lang.Specification
 
 /**
@@ -37,8 +48,7 @@ class EnforcerServiceSpec extends Specification {
         service.springSecurityService = new Expando()
         service.springSecurityService.getCurrentUser = {-> testUser }
 
-        service.grailsApplication = new DefaultGrailsApplication()
-        service.grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
+        grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
     }
 
     //Testing EnforcerService
@@ -84,7 +94,6 @@ class EnforcerServiceSpec extends Specification {
         then:
             thrown EnforcerException
     }
-    
 
     /* For these tests you'll have to sub out the Sprocket domain for one that is in your application
     //Testing DomainRoleTrait
@@ -122,86 +131,11 @@ class EnforcerServiceSpec extends Specification {
             true
     }
 
-    void 'test enforce hasRole("ROLE_ADMIN", testUser)'(){
+    void 'test enforce hasRole("ROLE_SUPER_USER", testUser)'(){
         when:
             service.enforce({ hasRole('ROLE_SUPER_USER', testUser) })
         then:
             thrown EnforcerException
-    }
-
-    //Testing Enforce AST transform
-    void 'test method 1'() {
-        when:
-            method1()
-        then:
-            true
-    }
-
-    void 'test method 2'() {
-        when:
-            method2()
-        then:
-            true
-    }
-
-    void 'test method 3'() {
-        when:
-            method3()
-        then:
-            thrown EnforcerException
-    }
-
-    void 'test method 4'() {
-        when:
-            method4()
-        then:
-            true
-    }
-
-    void 'test method 5'() {
-        when:
-            method5()
-        then:
-            thrown EnforcerException
-    }
-
-    void 'test method 6'() {
-        when:
-            method6(5)
-        then:
-            true
-    }
-
-
-    //Test methods for testing Enforce AST transform
-    @Enforce({ true })
-    def method1() {
-        println 'nice'
-    }
-
-    @Enforce(value = { true }, failure = { throw new EnforcerException("not nice") })
-    def method2() {
-        println 'nice'
-    }
-
-    @Enforce(value = { false }, failure = { throw new EnforcerException("nice") })
-    def method3() {
-        throw new EnforcerException("this shouldn't happen on method3")
-    }
-
-    @Enforce(value = { true }, failure = { throw new EnforcerException("not nice") }, success = { println "nice" })
-    def method4() {
-
-    }
-
-    @Enforce(value = { false }, failure = { throw new EnforcerException("nice") }, success = { println "not nice" })
-    def method5() {
-        throw new EnforcerException("this shouldn't happen on method5")
-    }
-
-    @Enforce({ number == 5 })
-    def method6(number) {
-        println 'nice'
     }
 }
 

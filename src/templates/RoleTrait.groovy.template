@@ -35,9 +35,10 @@ trait RoleTrait {
      */
     boolean hasRole(String role, User user = null){
         if(!user){
-            user = springSecurityService.currentUser
+            return SpringSecurityUtils.ifAllGranted(role)
         }
 
         role in user.authorities*.authority
+        //role in user.authorities*.authority || role in user.groups.authorities*.authority
     }
 }
