@@ -19,12 +19,10 @@
 package services.${packageName}
 
 import ${packageName}.EnforcerService
-import com.virtualdogbert.ast.Enforce
 import com.virtualdogbert.ast.EnforcerException
-import grails.plugin.springsecurity.SpringSecurityService
-import grails.test.mixin.Mock
+import com.virtualdogbert.ast.Reinforce
+import com.virtualdogbert.ast.ReinforceFilter
 import grails.test.mixin.TestFor
-import grails.core.DefaultGrailsApplication
 import spock.lang.Specification
 
 @TestFor(EnforcerService)

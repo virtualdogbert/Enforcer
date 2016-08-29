@@ -18,17 +18,10 @@
  */
 package services.${packageName}
 
-import ${packageName}.DomainRole
-import ${packageName}.Role
-import ${packageName}.User
-import ${packageName}.UserRole
-import ${packageName}.EnforcerService
+import ${packageName}.*
 import com.virtualdogbert.ast.Enforce
 import com.virtualdogbert.ast.EnforcerException
-import grails.plugin.springsecurity.SpringSecurityService
-import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import grails.core.DefaultGrailsApplication
 import spock.lang.Specification
 
 /**
