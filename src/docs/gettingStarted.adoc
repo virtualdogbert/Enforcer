@@ -1,6 +1,7 @@
 == Getting Started
 
-video::uYobWTrWv6o[youtube, width=640, height=360]
+video::sEHVJ0rqSTU[youtube, width=640, height=360]
+https://youtu.be/sEHVJ0rqSTU[Getting Started Video]
 
 . Have the Spring Security Core plug-in installed
 
@@ -31,6 +32,8 @@ For Grails 2:
 https://github.com/virtualdogbert/testEnforcer2[GitHub testEnforcer2]
 
 For Grails 3:
+
+https://github.com/virtualdogbert/testEnforcer3[GitHub testEnforcer3]
 
 https://github.com/virtualdogbert/Grails3Tutorial/tree/step_11_enforcer_plugin[GitHub Grails3Tutorial]
 

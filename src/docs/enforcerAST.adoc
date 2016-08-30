@@ -1,6 +1,7 @@
 == The Enforcer AST Transforms
 
-video::_jmV_l373Fo[youtube, width=640, height=360]
+video::KvXv3y1D6OE[youtube, width=640, height=360]
+https://youtu.be/KvXv3y1D6OE[Enforcer How The ASTs Work Video]
 
 The Enforcer AST transform Enforce allows you to put enforcer checks on methods, and classes, making then distinguishable from the main logic as business rule/security checks.
 

@@ -1,11 +1,9 @@
 == Introduction
-____
-"You've gotta ask yourself one question: 'Do I feel lucky?' Well, do ya, punk?"Dirty Harry(1971)
-____
 
-video::S1gxqk55f2A[youtube, width=640, height=360]
+video::z0c18A3lB60[youtube, width=640, height=360]
+https://youtu.be/z0c18A3lB60[Intro Video]
 
-The Enforcer Plugin, gives you the tools to enforce business rules, and or permissions. It light weight, easy to  maintain, extend and, use.
+The Enforcer Plugin, gives you the tools to enforce business rules, and or permissions. Enforcer is light weight, easy to  maintain, extend and, use.
 The plugin works off of a EnforcerService in conjunction with the  Enforce, Reinforce, and  ReinforceFilter Annotations(AST transforms).
 
 

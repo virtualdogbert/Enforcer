@@ -6,4 +6,5 @@
 ** Upgraded Enforce so that it can be applied both at the class and method level: https://github.com/virtualdogbert/Enforcer/issues/7
 ** Added Reinforce and ReinforceFilter annotations
 ** Updating documentation to Asciidoctor
-** fixed a bug with the default domainRole trait: https://github.com/virtualdogbert/Enforcer/issues/9
+** Update video documentation
+** Fixed a bug with the default domainRole trait: https://github.com/virtualdogbert/Enforcer/issues/9

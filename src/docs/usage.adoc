@@ -1,6 +1,7 @@
 == Usage
 
-video::Dqimwk8uX5A[youtube, width=640, height=360]
+video::vUxjOV8YmoU[youtube, width=640, height=360]
+https://youtu.be/vUxjOV8YmoU[Usage Video]
 
 Here are some code examples of what you can do with the Enforcer plug-in:
 
@@ -55,6 +56,7 @@ method, if you are not using def:
 
 
 For More examples check out the unit tests:
-https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerServiceSpec.groovy[EnforcerServiceSpec.groovy]
-https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerAnnotationSpec.groovy[EnforcerAnnotationSpec.groovy]
-https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/ReinforceAnnotationSpec.groovy[ReinforceAnnotationSpec.groovy]
+
+* https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerServiceSpec.groovy[EnforcerServiceSpec.groovy]
+* https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerAnnotationSpec.groovy[EnforcerAnnotationSpec.groovy]
+* https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/ReinforceAnnotationSpec.groovy[ReinforceAnnotationSpec.groovy]

@@ -1,6 +1,7 @@
 == Why use Enforcer?
 
-video::h2sosla0C5k[youtube, width=640, height=360]
+video::32h7WDRJmlU[youtube, width=640, height=360]
+https://youtu.be/32h7WDRJmlU[Why User Enforcer Video]
 
 So why would you want to use Enforcer?
 
