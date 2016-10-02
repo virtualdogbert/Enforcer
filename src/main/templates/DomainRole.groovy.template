@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package ${packageName}
+package com.security.enforcer
 
 /**
  * This is for adding roles at an object level for business rules

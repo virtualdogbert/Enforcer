@@ -17,7 +17,7 @@
  *  under the License.
  */
 
-package ${packageName}
+package com.security.enforcer
 
 import com.virtualdogbert.ast.EnforcerException
 import grails.transaction.Transactional

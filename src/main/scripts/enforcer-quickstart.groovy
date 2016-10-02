@@ -25,43 +25,42 @@ description("Installs default implementation for Enforcer, which can be changed/
 }
 
 model = [packageName: args[0]]
-dir = args[0].replace('.', '/')
 
 addStatus "Installing Enforcer defaults"
 
 
 render template: template("DomainRole.groovy.template"),
-        destination: file("grails-app/domain/${dir}/DomainRole.groovy"),
+        destination: file("grails-app/domain/com/security/enforcer/DomainRole.groovy"),
         model: model,
         overwrite: true
 
 render template: template("DomainRoleTrait.groovy.template"),
-        destination: file("grails-app/services/${dir}/DomainRoleTrait.groovy"),
+        destination: file("grails-app/services/com/security/enforcer/DomainRoleTrait.groovy"),
         model: model,
         overwrite: true
 
 render template: template("EnforcerService.groovy.template"),
-        destination: file("grails-app/services/${dir}/EnforcerService.groovy"),
+        destination: file("grails-app/services/com/security/enforcer/EnforcerService.groovy"),
         model: model,
         overwrite: true
 
 render template: template("RoleTrait.groovy.template"),
-        destination: file("grails-app/services/${dir}/RoleTrait.groovy"),
+        destination: file("grails-app/services/com/security/enforcer/RoleTrait.groovy"),
         model: model,
         overwrite: true
 
 render template: template("EnforcerServiceSpec.groovy.template"),
-        destination: file("src/test/groovy/unit/services/${dir}/EnforcerServiceSpec.groovy"),
+        destination: file("src/test/groovy/unit/services/com/security/enforcer/EnforcerServiceSpec.groovy"),
         model: model,
         overwrite: true
 
 render template: template("EnforcerAnnotationSpec.groovy.template"),
-        destination: file("src/test/groovy/unit/services/${dir}/EnforcerAnnotationSpec.groovy"),
+        destination: file("src/test/groovy/unit/services/com/security/enforcer/EnforcerAnnotationSpec.groovy"),
         model: model,
         overwrite: true
 
 render template: template("ReinforceAnnotationSpec.groovy.template"),
-        destination: file("src/test/groovy/unit/services/${dir}/ReinforceAnnotationSpec.groovy"),
+        destination: file("src/test/groovy/unit/services/com/security/enforcer/ReinforceAnnotationSpec.groovy"),
         model: model,
         overwrite: true
 
