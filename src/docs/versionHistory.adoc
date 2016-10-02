@@ -1,10 +1,16 @@
 == Version History
 
-* 0.2.1 and 0.3.1
-** Initial Release including the Enforce annotation that can only be applied to methods. Documentation is gdoc.
+
+* 1.2.2 and 1.3.2
+** Enhanced IDE compatibility using GDSL, so that methods from the Enforcer service and it's traits are recognized in the Enforcer AST transform anotations.
+*** This means that the service has to be installed to a know location com.security.enforcer.
+*** All other installed files have been changed to match the package, but unlike the service can be moved without breaking IDE compatibility.
+** Added @DelegatesTo(EnforcerService) to the closures of the EnforcerService for better IDE support, for if the service is used directly.
 * 1.2.1 and 1.3.1
 ** Upgraded Enforce so that it can be applied both at the class and method level: https://github.com/virtualdogbert/Enforcer/issues/7
 ** Added Reinforce and ReinforceFilter annotations
 ** Updating documentation to Asciidoctor
 ** Update video documentation
 ** Fixed a bug with the default domainRole trait: https://github.com/virtualdogbert/Enforcer/issues/9
+* 0.2.1 and 0.3.1
+** Initial Release including the Enforce annotation that can only be applied to methods. Documentation is gdoc.

@@ -12,16 +12,19 @@ https://youtu.be/sEHVJ0rqSTU[Getting Started Video]
 In Grails 2 add the following to your buildConfig.groovy under the plug-ins section:
 
 ----
-compile ":enforcer:1.2.1"
+compile ":enforcer:1.2.2"
 ----
 
 In grails 3 add the following dependency to your gradle.build:
 
 ----
-compile "org.grails.plugins:enforcer:1.3.1"
+compile "org.grails.plugins:enforcer:1.3.2"
 ----
 
 4.Run grails enforcer-quickstart <name of the package you installed spring security core under>
+
+WARNING: This is for imports, all files will be installed to the com.security.enforcer package. Any of the files can
+be moved, except the EnforcerService. Moving the EnforcerService will break the IDE integration.
 
 5.Check the Usage section and start using Enforcer.
 
