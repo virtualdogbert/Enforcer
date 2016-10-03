@@ -18,6 +18,7 @@
  */
 package services.com.security.enforcer
 
+import ${packageName}.*
 import com.security.enforcer.*
 import com.virtualdogbert.ast.EnforcerException
 import grails.test.mixin.Mock
