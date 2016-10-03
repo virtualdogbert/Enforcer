@@ -50,17 +50,17 @@ render template: template("RoleTrait.groovy.template"),
         overwrite: true
 
 render template: template("EnforcerServiceSpec.groovy.template"),
-        destination: file("src/test/groovy/unit/services/com/security/enforcer/EnforcerServiceSpec.groovy"),
+        destination: file("src/test/groovy/services/com/security/enforcer/EnforcerServiceSpec.groovy"),
         model: model,
         overwrite: true
 
 render template: template("EnforcerAnnotationSpec.groovy.template"),
-        destination: file("src/test/groovy/unit/services/com/security/enforcer/EnforcerAnnotationSpec.groovy"),
+        destination: file("src/test/groovy/services/com/security/enforcer/EnforcerAnnotationSpec.groovy"),
         model: model,
         overwrite: true
 
 render template: template("ReinforceAnnotationSpec.groovy.template"),
-        destination: file("src/test/groovy/unit/services/com/security/enforcer/ReinforceAnnotationSpec.groovy"),
+        destination: file("src/test/groovy/services/com/security/enforcer/ReinforceAnnotationSpec.groovy"),
         model: model,
         overwrite: true
 
