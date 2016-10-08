@@ -9,7 +9,7 @@ https://youtu.be/sEHVJ0rqSTU[Getting Started Video]
 
 . Add the Enforcer dependency:
 
-In Grails 2 add the following to your buildConfig.groovy under the dependencies section:
+In Grails 2 add the following to your buildConfig.groovy under the plug-ins section:
 
 ----
 compile ":enforcer:1.2.2"
