@@ -1,3 +1,5 @@
+package com.virtualdogbert.ast
+
 /**
  *  Licensed to the Apache Software Foundation (ASF) under one
  *  or more contributor license agreements.  See the NOTICE file
@@ -17,28 +19,23 @@
  *  under the License.
  */
 
-package com.security.enforcer
-
-import ${packageName}.User
+/**
+ * This allows intellij to resolve Enforcer service calls from the @Enforce annotation
+ */
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.Enforce"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
 
 /**
- *  This trait is for the EnforcerService, extending it's capability to enforcing user roles, without the verbosity of calling a service.
+ * This allows intellij to resolve Enforcer service calls from the @Reinforce annotation
  */
-trait RoleTrait {
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.Reinforce"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
 
-    /**
-     * This method check to see if a user had a given role
-     *
-     * @param role the role/authority to check
-     * @param user the user to check to see if it has a role(defaulted to springSecurityService.currentUser)
-     * @return true if the user does had the role, false otherwise.
-     */
-    boolean hasRole(String role, User user = null){
-        if(!user){
-            return SpringSecurityUtils.ifAllGranted(role)
-        }
-
-        role in user.authorities*.authority
-        //role in user.authorities*.authority || role in user.groups.authorities*.authority
-    }
+/**
+ * This allows intellij to resolve Enforcer service calls from the @ReinforceFilter annotation
+ */
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilter"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
 }

@@ -16,9 +16,9 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package services.${packageName}
+package services.com.security.enforcer
 
-import ${packageName}.EnforcerService
+import com.security.enforcer.EnforcerService
 import com.virtualdogbert.ast.Enforce
 import com.virtualdogbert.ast.EnforcerException
 import grails.test.mixin.TestFor

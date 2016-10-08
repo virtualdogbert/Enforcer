@@ -54,20 +54,7 @@ private boolean configure() {
     true
 }
 
-private void createDomains() {
 
-    String dir = packageToDir(packageName)
-    String domainDir = "$appDir/domain/$dir"
-    String serviceDir = "$appDir/services/$dir"
-    String testDir = "$basedir/test/unit/services/$dir/"
-    generateFile "$templateDir/DomainRole.groovy.template", "${domainDir}DomainRole.groovy"
-    generateFile "$templateDir/DomainRoleTrait.groovy.template", "${serviceDir}DomainRoleTrait.groovy"
-    generateFile "$templateDir/EnforcerService.groovy.template", "${serviceDir}EnforcerService.groovy"
-    generateFile "$templateDir/EnforcerServiceSpec.groovy.template", "${testDir}EnforcerServiceSpec.groovy"
-    generateFile "$templateDir/EnforcerAnnotationSpec.groovy.template", "${testDir}EnforcerAnnotationSpec.groovy"
-    generateFile "$templateDir/ReinforceAnnotationSpec.groovy.template", "${testDir}ReinforceAnnotationSpec.groovy"
-    generateFile "$templateDir/RoleTrait.groovy.template", "${serviceDir}RoleTrait.groovy"
-}
 
 
 private parseArgs() {
@@ -83,3 +70,17 @@ private parseArgs() {
 }
 
 setDefaultTarget 'enforcerQuickstart'
+private void createDomains() {
+
+    String dir = packageToDir(packageName)
+    String domainDir = "$appDir/domain/com/security/enforcer"
+    String serviceDir = "$appDir/services/com/security/enforcer"
+    String testDir = "$basedir/test/unit/services/com/security/enforcer"
+    generateFile "$templateDir/DomainRole.groovy.template", "${domainDir}/DomainRole.groovy"
+    generateFile "$templateDir/DomainRoleTrait.groovy.template", "${serviceDir}/DomainRoleTrait.groovy"
+    generateFile "$templateDir/EnforcerService.groovy.template", "${serviceDir}/EnforcerService.groovy"
+    generateFile "$templateDir/EnforcerServiceSpec.groovy.template", "${testDir}/EnforcerServiceSpec.groovy"
+    generateFile "$templateDir/EnforcerAnnotationSpec.groovy.template", "${testDir}/EnforcerAnnotationSpec.groovy"
+    generateFile "$templateDir/ReinforceAnnotationSpec.groovy.template", "${testDir}/ReinforceAnnotationSpec.groovy"
+    generateFile "$templateDir/RoleTrait.groovy.template", "${serviceDir}/RoleTrait.groovy"
+}

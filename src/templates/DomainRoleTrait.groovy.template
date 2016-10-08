@@ -17,9 +17,9 @@
  *  under the License.
  */
 
-package ${packageName}
+package com.security.enforcer
 
-import ${packageName}.DomainRole
+import com.security.enforcer.DomainRole
 import ${packageName}.User
 import com.virtualdogbert.ast.Enforce
 
@@ -33,7 +33,7 @@ trait DomainRoleTrait {
      *
      *  @param  role the role to check to see if the user has on the domainObject
      *  @param domainObject the instance of the domain object to check if the user has a DomainRole on
-     *  @parm user the user to check if  it has the role on the domain object, defaults to null which is swapped for springSecurityService.currentUser
+     *  @param user the user to check if  it has the role on the domain object, defaults to null which is swapped for springSecurityService.currentUser
      *  @return true if the user has the DomainRole or the DomainRole fall in to the following hierarchy and false other wise:
      *  Map roleHierarchy = [
      *            owner : ['owner', 'editor', 'viewer'],

@@ -1,5 +1,5 @@
 class EnforcerGrailsPlugin {
-    def version = "1.2.1"
+    def version = "1.2.2"
     def grailsVersion = "2.4 > *"
     def title = "The Enforcer Plugin"
     def author = "Tucker J. Pelletier AKA virtualdogbert"
