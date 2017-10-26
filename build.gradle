@@ -30,7 +30,7 @@ apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/
 apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
 
 
-version "1.3.2"
+version "1.3.3"
 group "org.grails.plugins"
 
 bintray {

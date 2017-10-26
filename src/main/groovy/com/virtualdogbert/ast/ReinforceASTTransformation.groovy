@@ -58,7 +58,7 @@ import java.lang.reflect.Modifier
  *
  */
 @CompileStatic
-@GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
+@GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class ReinforceASTTransformation extends AbstractASTTransformation {
 
     public static final ClassNode COMPILE_STATIC_TYPE = ClassHelper.make(CompileStatic)

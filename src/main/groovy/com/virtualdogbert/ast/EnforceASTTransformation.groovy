@@ -54,7 +54,7 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
  *
  */
 @CompileStatic
-@GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
+@GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class EnforceASTTransformation extends AbstractASTTransformation {
 
     @Override
