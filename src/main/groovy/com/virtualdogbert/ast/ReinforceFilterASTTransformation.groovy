@@ -45,18 +45,18 @@ import java.lang.reflect.Modifier
  * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure
  *
  * Example:
- * @ReinforceFilter({ Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })
+ * @ReinforceFilter ( { Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })
  *
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-public class ReinforceFilterASTTransformation extends AbstractASTTransformation {
+class ReinforceFilterASTTransformation extends AbstractASTTransformation {
 
     public static final ClassNode COMPILE_STATIC_TYPE = ClassHelper.make(CompileStatic)
     public static final ClassNode TYPE_CHECKED_TYPE   = ClassHelper.make(TypeChecked)
 
     @Override
-    public void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
+    void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
         init(nodes, sourceUnit)
         if (nodes.length != 2) return
         ClassNode beforeNode = new ClassNode(ReinforceFilter.class)
@@ -82,7 +82,7 @@ public class ReinforceFilterASTTransformation extends AbstractASTTransformation 
     protected void weaveMethod(SourceUnit source, ClassNode classNode, MethodNode methodNode, AnnotationNode annotationNode) {
         MethodCallExpression originalMethodCall = moveOriginalCodeToNewMethod(source, classNode, methodNode)
         BlockStatement methodBody = new BlockStatement()
-        ListExpression params = new ListExpression(getParamsList(annotationNode.members, originalMethodCall))
+        List<Expression> params = getParamsList(annotationNode.members, originalMethodCall)
 
         if (methodNode.getReturnType() != ClassHelper.VOID_TYPE) {
             methodBody.addStatement(new ReturnStatement(new CastExpression(methodNode.getReturnType(), createEnforcerCall(params))))
@@ -181,7 +181,7 @@ public class ReinforceFilterASTTransformation extends AbstractASTTransformation 
      * @param members The map of members / parameters
      * @return A list of the closure parameters passed to the annotation
      */
-    private List getParamsList(Map members, Expression returnValue) {
+    private List<Expression> getParamsList(Map members, Expression returnValue) {
         Expression value = (Expression) members.value
         return [value, returnValue]
     }
@@ -192,10 +192,17 @@ public class ReinforceFilterASTTransformation extends AbstractASTTransformation 
      * @param params the list of closure parameters to pass to the enforce method of the enforcer service
      * @return the statement created for injecting the call to the enforce method of the enforcerService
      */
-    private Expression createEnforcerCall(ListExpression params) {
+    private Expression createEnforcerCall(List<Expression> params) {
         ClassNode holder = new ClassNode(Holders.class)
         Expression context = new StaticMethodCallExpression(holder, "getApplicationContext", ArgumentListExpression.EMPTY_ARGUMENTS)
         Expression service = new MethodCallExpression(context, "getBean", new ConstantExpression('enforcerService'))
-        return new MethodCallExpression(service, 'ReinforceFilter', new ArgumentListExpression(params))
+
+        ArgumentListExpression arguments = new ArgumentListExpression()
+
+        params.each { Expression expression ->
+            arguments.addExpression(expression)
+        }
+
+        return new MethodCallExpression(service, 'ReinforceFilter', arguments)
     }
 }

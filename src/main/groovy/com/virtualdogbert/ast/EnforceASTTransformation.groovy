@@ -55,10 +55,10 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-public class EnforceASTTransformation extends AbstractASTTransformation {
+class EnforceASTTransformation extends AbstractASTTransformation {
 
     @Override
-    public void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
+    void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
         if (nodes.length != 2) return
         ClassNode beforeNode = new ClassNode(Enforce.class)
 
@@ -66,14 +66,14 @@ public class EnforceASTTransformation extends AbstractASTTransformation {
 
             MethodNode methodNode = (MethodNode) nodes[1]
             AnnotationNode annotationNode  = methodNode.getAnnotations(beforeNode)[0]
-            ListExpression params = new ListExpression(getParamsList(annotationNode.members))
+            List<Expression> params = getParamsList(annotationNode.members)
             applyToMethod(methodNode, sourceUnit, params)
 
         } else if (nodes[0] instanceof AnnotationNode && nodes[1] instanceof ClassNode) {
 
             ClassNode classNode = (ClassNode) nodes[1]
             AnnotationNode annotationNode = classNode.getAnnotations(beforeNode)[0]
-            ListExpression params = new ListExpression(getParamsList(annotationNode.members))
+            List<Expression> params = getParamsList(annotationNode.members)
             classNode.methods.each{ MethodNode methodNode ->
                 applyToMethod(methodNode, sourceUnit, params, true)
             }
@@ -89,7 +89,7 @@ public class EnforceASTTransformation extends AbstractASTTransformation {
      * @param params the parameter passed into the annotation at the class or method level
      * @param fromClass If the annotation comes from the class level
      */
-    private void applyToMethod(MethodNode methodNode, SourceUnit sourceUnit, ListExpression params, boolean fromClass = false) {
+    private void applyToMethod(MethodNode methodNode, SourceUnit sourceUnit,  List<Expression> params, boolean fromClass = false) {
 
         ClassNode beforeNode = new ClassNode(Enforce.class)
         if (fromClass && methodNode.getAnnotations(beforeNode)[0]) {
@@ -112,7 +112,7 @@ public class EnforceASTTransformation extends AbstractASTTransformation {
          * @param members The map of members / parameters
          * @return A list of the closure parameters passed to the annotation
          */
-    private List getParamsList(Map members) {
+    private List<Expression> getParamsList(Map members) {
         Expression value = (Expression) members.value
         Expression failure = (Expression) members.failure
         Expression success = (Expression) members.success
@@ -138,11 +138,18 @@ public class EnforceASTTransformation extends AbstractASTTransformation {
          * @param params the list of closure parameters to pass to the enforce method of the enforcer service
          * @return the statement created for injecting the call to the enforce method of the enforcerService
          */
-    private Statement createEnforcerCall(ListExpression params) {
+    private Statement createEnforcerCall(List<Expression> params) {
         ClassNode holder = new ClassNode(Holders.class)
         Expression context = new StaticMethodCallExpression(holder, "getApplicationContext", ArgumentListExpression.EMPTY_ARGUMENTS)
-        Expression service = new MethodCallExpression(context, "getBean", new ConstantExpression('enforcerService'));
-        Expression call = new MethodCallExpression(service, 'enforce', new ArgumentListExpression(params))
+        Expression service = new MethodCallExpression(context, "getBean", new ConstantExpression('enforcerService'))
+
+        ArgumentListExpression arguments = new ArgumentListExpression()
+
+        params.each {Expression expression ->
+            arguments.addExpression(expression)
+        }
+
+        Expression call = new MethodCallExpression(service, 'enforce', arguments)
         return new ExpressionStatement(call)
     }
 }
