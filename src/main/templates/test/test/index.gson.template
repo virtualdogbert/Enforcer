@@ -1,0 +1,12 @@
+import com.security.Sprocket
+
+model {
+    List<Sprocket> results
+}
+
+json{
+    sprockets(results) { Sprocket sprocket->
+        id  sprocket.id
+        material sprocket.material
+    }
+}
