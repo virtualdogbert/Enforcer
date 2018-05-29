@@ -19,7 +19,8 @@
 
 package com.security.enforcer
 
-import com.virtualdogbert.ast.EnforcerException
+import grails.core.GrailsApplication
+import grails.plugin.springsecurity.SpringSecurityService
 import grails.transaction.Transactional
 import grails.util.Environment
 
@@ -27,10 +28,10 @@ import grails.util.Environment
  * The EnforcerService has one enforce method for enforcing business rules, and is extended by the traits it implements.
  */
 @Transactional
-class EnforcerService implements RoleTrait,DomainRoleTrait{
+class InstalledEnforcerService extends EnforcerService implements RoleTrait,DomainRoleTrait{
 
-    def grailsApplication
-    def springSecurityService
+    GrailsApplication     grailsApplication
+    SpringSecurityService springSecurityService
 
     /**
      * The enforce method enforced business rules given 3 closures, a predicate to check, failure and success to rune depending on if the
@@ -41,10 +42,11 @@ class EnforcerService implements RoleTrait,DomainRoleTrait{
      * @param failure the failure closure to run if the predicate results false, this is defaulted to throw new EnforcerException("Access Denied")
      * @param success the success closure to run if  the predicate results true, this is defaulted to return true
      */
+    @Override
     def enforce(
-        @DelegatesTo(EnforcerService)Closure predicate,
-        @DelegatesTo(EnforcerService)Closure failure = { -> throw new EnforcerException("Access Denied") },
-        @DelegatesTo(EnforcerService)Closure success = { -> true }) {
+            @DelegatesTo(InstalledEnforcerService)Closure predicate,
+            @DelegatesTo(InstalledEnforcerService)Closure failure = { -> throw new EnforcerException("Access Denied") },
+            @DelegatesTo(InstalledEnforcerService)Closure success = { -> true }) {
 
         if (Environment.current != Environment.TEST || grailsApplication.config.enforcer.enabled) {
             predicate.delegate = this
@@ -68,7 +70,8 @@ class EnforcerService implements RoleTrait,DomainRoleTrait{
      *
      * @return the filtered value.
      */
-    Object ReinforceFilter(@DelegatesTo(EnforcerService)Closure filter, Object value) {
+    @Override
+    Object ReinforceFilter(@DelegatesTo(InstalledEnforcerService)Closure filter, Object value) {
         filter(value)
     }
 }

@@ -20,7 +20,7 @@ import org.grails.cli.interactive.completers.DomainClassCompleter
 
 description("Installs default implementation for Enforcer, which can be changed/enhanced by the user") {
     usage "grails enforcer-quickstart [package]"
-    argument name: 'package', description: 'The name of the package to put the enforcer files under'
+    argument name: 'package', description: 'The name of the package you installed spring security core under'
     completer DomainClassCompleter
 }
 
@@ -39,8 +39,8 @@ render template: template("DomainRoleTrait.groovy.template"),
         model: model,
         overwrite: true
 
-render template: template("EnforcerService.groovy.template"),
-        destination: file("grails-app/services/com/security/enforcer/EnforcerService.groovy"),
+render template: template("InstalledEnforcerService.groovy.template"),
+        destination: file("grails-app/services/com/security/enforcer/InstalledEnforcerService.groovy"),
         model: model,
         overwrite: true
 
@@ -64,4 +64,49 @@ render template: template("ReinforceAnnotationSpec.groovy.template"),
         model: model,
         overwrite: true
 
+def beansList = [[import: "import com.security.enforcer.InstalledEnforcerService", definition: """
+    enforcerService(InstalledEnforcerService) {
+        grailsApplication = ref('grailsApplication')
+        springSecurityService = ref('springSecurityService')
+    }
+""".toString()]]
+addBeans(beansList, 'grails-app/conf/spring/resources.groovy')
+
 addStatus "Installing Enforcer defaults complete"
+
+//Snagged from https://github.com/grails-plugins/grails-spring-security-core/blob/master/plugin/src/main/scripts/s2-quickstart.groovy
+private void addBeans(List<Map> beans, String pathname) {
+    File file = new File(pathname)
+    List lines = []
+
+    beans.each { Map bean ->
+        lines << bean.import
+    }
+
+    if (file.exists()) {
+        file.eachLine { String line ->
+            lines << line
+
+            if (line.contains('beans = {')) {
+                beans.each { Map bean ->
+                    lines << bean.definition
+                }
+            }
+        }
+    } else {
+        lines << 'beans = {'
+
+        beans.each { Map bean ->
+            lines << bean.definition
+        }
+
+        lines << '}'
+    }
+
+    file.withWriter('UTF-8') { writer ->
+
+        lines.each { String line ->
+            writer.write "${line}${System.lineSeparator()}"
+        }
+    }
+}

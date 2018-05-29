@@ -18,26 +18,25 @@
  */
 package services.com.security.enforcer
 
+//import com.security.Sprocket
 import ${packageName}.*
-import com.security.enforcer.*
-import com.virtualdogbert.ast.EnforcerException
-import grails.test.mixin.Mock
-import grails.test.mixin.TestFor
+import com.security.enforcer.DomainRole
+import com.security.enforcer.EnforcerException
+import com.security.enforcer.InstalledEnforcerService
+import grails.plugin.springsecurity.SpringSecurityService
+import grails.testing.gorm.DataTest
+import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
+class EnforcerServiceSpec extends Specification implements ServiceUnitTest<InstalledEnforcerService>, DataTest {
 
-@Mock([Role, User, UserRole, DomainRole/*,Sprocket*/])
-@TestFor(EnforcerService)
-class EnforcerServiceSpec extends Specification {
-
-    def testUser, testUser2
+    User testUser, testUser2
 
     def setup() {
-        def adminRole = new Role('ROLE_ADMIN').save(flush: true, failOnError: true)
-        def userRole = new Role('ROLE_USER').save(flush: true, failOnError: true)
+        mockDomains Role, User, UserRole, DomainRole //, Sprocket //Comment in or replace with your own domain to test
+
+        def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true, failOnError: true)
+        def userRole = new Role(authority: 'ROLE_USER').save(flush: true, failOnError: true)
         testUser = new User(username: 'me', password: 'password').save(flush: true, failOnError: true)
         testUser2 = new User(username: 'me2', password: 'password').save(flush: true, failOnError: true)
 
@@ -46,10 +45,10 @@ class EnforcerServiceSpec extends Specification {
 
         UserRole.create testUser2, userRole, true
 
-        service.springSecurityService = new Expando()
-        service.springSecurityService.getCurrentUser = {-> testUser }
+        service.springSecurityService = [getCurrentUser: { -> testUser }] as SpringSecurityService
 
         grailsApplication.config.enforcer.enabled = true//This enables Enforcer for unit tests because it is turned off by default.
+        service.grailsApplication = grailsApplication
     }
 
     //Testing EnforcerService
@@ -107,9 +106,19 @@ class EnforcerServiceSpec extends Specification {
             true
     }
 
+    void 'test enforce hasDomainRole("owner", domainObject, testUser) with domain role removed'() {
+        when:
+            Sprocket sprocket = new Sprocket(material: 'metal', creator: testUser).save(failOnError: true)
+            service.changeDomainRole('owner', sprocket, testUser)
+            service.removeDomainRole(sprocket, testUser)
+            service.enforce({ hasDomainRole('owner', sprocket, testUser) })
+        then:
+            thrown EnforcerException
+    }
+
     void 'test fail enforce hasDomainRole("owner",domainObject, testUser)'() {
         when:
-            Sprocket sprocket = new Sprocket(material: 'metal',creator: testUser).save(failOnError: true)
+            Sprocket sprocket = new Sprocket(material: 'metal', creator: testUser).save(failOnError: true)
             service.changeDomainRole('owner', sprocket, testUser)
             service.enforce({ hasDomainRole('owner', sprocket, testUser2) })
         then:
@@ -117,22 +126,22 @@ class EnforcerServiceSpec extends Specification {
     }
     */
 
-     //Testing RoleTrait
-    void 'test enforce hasRole("ROLE_ADMIN", testUser)'(){
+    //Testing RoleTrait
+    void 'test enforce hasRole("ROLE_ADMIN", testUser)'() {
         when:
             service.enforce({ hasRole('ROLE_ADMIN', testUser) })
         then:
             true
     }
 
-    void 'test enforce hasRole("ROLE_USER", testUser)'(){
+    void 'test enforce hasRole("ROLE_USER", testUser)'() {
         when:
             service.enforce({ hasRole('ROLE_USER', testUser) })
         then:
             true
     }
 
-    void 'test enforce hasRole("ROLE_SUPER_USER", testUser)'(){
+    void 'test enforce hasRole("ROLE_SUPER_USER", testUser)'() {
         when:
             service.enforce({ hasRole('ROLE_SUPER_USER', testUser) })
         then:
