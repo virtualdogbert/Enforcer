@@ -29,7 +29,6 @@ import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
-
 /**
  * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService at the
  * beginning of the method.
@@ -52,7 +51,7 @@ import java.lang.annotation.Target
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.TYPE, ElementType.METHOD])
 @GroovyASTTransformationClass("com.virtualdogbert.ast.EnforceASTTransformation")
-public @interface Enforce {
+@interface Enforce {
     Class value()
     Class failure() default {false}
     Class success() default {true}
