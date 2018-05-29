@@ -24,10 +24,34 @@ contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.
     delegatesTo(findClass('com.security.enforcer.EnforcerService'))
 }
 
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.EnforceT"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.EnforceS"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.EnforceTS"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
 /**
  * This allows intellij to resolve Enforcer service calls from the @Reinforce annotation
  */
 contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.Reinforce"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceT"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceS"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceTS"))) {
     delegatesTo(findClass('com.security.enforcer.EnforcerService'))
 }
 
@@ -36,4 +60,73 @@ contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.
  */
 contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilter"))) {
     delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilterT"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilterS"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilterTS"))) {
+    delegatesTo(findClass('com.security.enforcer.EnforcerService'))
+}
+
+/**
+ * This allows intellij to resolve Enforcer service calls from the @Enforce annotation
+ */
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.Enforce"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.EnforceT"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.EnforceS"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.EnforceTS"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+/**
+ * This allows intellij to resolve Enforcer service calls from the @Reinforce annotation
+ */
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.Reinforce"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceT"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceS"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceTS"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+/**
+ * This allows intellij to resolve Enforcer service calls from the @ReinforceFilter annotation
+ */
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilter"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilterT"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilterS"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
+}
+
+contributor(context(scope: closureScope(annotationName: "com.virtualdogbert.ast.ReinforceFilterTS"))) {
+    delegatesTo(findClass('com.security.enforcer.InstalledEnforcerService'))
 }
