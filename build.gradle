@@ -1,7 +1,4 @@
 buildscript {
-    ext {
-        grailsVersion = project.grailsVersion
-    }
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
@@ -14,24 +11,18 @@ buildscript {
 }
 
 plugins {
-    id "io.spring.dependency-management" version "0.5.2.RELEASE"
+    //id "io.spring.dependency-management" version "0.5.2.RELEASE"
     id "com.jfrog.bintray" version "1.2"
 }
 
-
-
-apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: "spring-boot"
-apply plugin: "org.grails.grails-plugin"
-apply plugin: 'org.asciidoctor.convert'
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
-
-
-version "1.3.4"
+version "2.0.0"
 group "org.grails.plugins"
+
+apply plugin:"eclipse"
+apply plugin:"idea"
+apply plugin:"org.grails.grails-plugin"
+apply plugin:"org.grails.grails-plugin-publish"
+apply plugin: 'org.asciidoctor.convert'
 
 bintray {
     pkg {
@@ -49,26 +40,12 @@ bintray {
     }
 }
 
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-}
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
 repositories {
     mavenLocal()
-    mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.grails:grails-bom:$grailsVersion"
-    }
-    applyMavenExclusions false
 }
 
 dependencies {
@@ -86,9 +63,27 @@ dependencies {
     console "org.grails:grails-console"
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
+bootRun {
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+    addResources = true
+    String springProfilesActive = 'spring.profiles.active'
+    systemProperty springProfilesActive, System.getProperty(springProfilesActive)
 }
+// enable if you wish to package this plugin as a standalone application
+bootRepackage.enabled = false
+
+grailsPublish {
+    user = 'user'
+    key = 'key'
+    githubSlug = 'enforcer'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = "Enforcer"
+    desc = "A plugin for enforcing business rules/permissions, that works with Spring Security Core, is easier to implement, and extend. It can also be used as an alternative to Spring Security ACL"
+    developers = [tpelletier:"Tucker Pelletier"]
+}
+
 
 def asciidoctorAttributes = [
         copyright           : 'Apache License, Version 2.0',
@@ -128,7 +123,7 @@ task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML, a
     backends 'html5', 'pdf'
 }
 
-task docs(dependsOn: [asciidoc]) << {
+task docs(dependsOn: [asciidoc]) {
 
     File dir = new File(buildDir, 'docs')
     ['pdf'].each { String ext ->
