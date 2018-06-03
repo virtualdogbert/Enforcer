@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         mavenLocal()
-        maven { url "https://repo.grails.org/grails/core" }
+        maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -11,17 +11,16 @@ buildscript {
 }
 
 plugins {
-    //id "io.spring.dependency-management" version "0.5.2.RELEASE"
-    id "com.jfrog.bintray" version "1.2"
+    id 'com.jfrog.bintray' version '1.2'
 }
 
-version "2.0.0"
-group "org.grails.plugins"
+version '2.0.0'
+group 'org.grails.plugins'
 
-apply plugin:"eclipse"
-apply plugin:"idea"
-apply plugin:"org.grails.grails-plugin"
-apply plugin:"org.grails.grails-plugin-publish"
+apply plugin:'eclipse'
+apply plugin:'idea'
+apply plugin:'org.grails.grails-plugin'
+apply plugin:'org.grails.grails-plugin-publish'
 apply plugin: 'org.asciidoctor.convert'
 
 bintray {
@@ -29,9 +28,9 @@ bintray {
         userOrg = 'virtualdogbert'
         repo = 'plugins'
         name = "$project.group:$project.name"
-        issueTrackerUrl = "https://github.com/virtualdogbert/Enforcer/issues"
-        vcsUrl = "https://github.com/virtualdogbert/Enforcer"
-        websiteUrl = "https://virtualdogbert.github.io/Enforcer"
+        issueTrackerUrl = 'https://github.com/virtualdogbert/Enforcer/issues'
+        vcsUrl = 'https://github.com/virtualdogbert/Enforcer'
+        websiteUrl = 'https://virtualdogbert.github.io/Enforcer'
         licenses = ['Apache-2.0']
         version {
             attributes = ['grails-plugin': "$project.group:$project.name"]
@@ -45,22 +44,22 @@ targetCompatibility = 1.7
 
 repositories {
     mavenLocal()
-    maven { url "https://repo.grails.org/grails/core" }
+    maven { url 'https://repo.grails.org/grails/core' }
 }
 
 dependencies {
     provided 'org.springframework.boot:spring-boot-starter-logging'
-    provided "org.springframework.boot:spring-boot-starter-actuator"
-    provided "org.springframework.boot:spring-boot-autoconfigure"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
+    provided 'org.springframework.boot:spring-boot-starter-actuator'
+    provided 'org.springframework.boot:spring-boot-autoconfigure'
+    provided 'org.springframework.boot:spring-boot-starter-tomcat'
 
-    provided "org.grails:grails-web-boot"
-    provided "org.grails:grails-dependencies"
+    provided 'org.grails:grails-web-boot'
+    provided 'org.grails:grails-dependencies'
     provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-    testCompile "org.grails:grails-plugin-testing"
+    testCompile 'org.grails:grails-plugin-testing'
 
-    console "org.grails:grails-console"
+    console 'org.grails:grails-console'
 }
 
 bootRun {
@@ -79,9 +78,9 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "Enforcer"
-    desc = "A plugin for enforcing business rules/permissions, that works with Spring Security Core, is easier to implement, and extend. It can also be used as an alternative to Spring Security ACL"
-    developers = [tpelletier:"Tucker Pelletier"]
+    title = 'Enforcer'
+    desc = 'A plugin for enforcing business rules/permissions, that works with Spring Security Core, is easier to implement, and extend. It can also be used as an alternative to Spring Security ACL'
+    developers = [tpelletier:'Tucker Pelletier']
 }
 
 
