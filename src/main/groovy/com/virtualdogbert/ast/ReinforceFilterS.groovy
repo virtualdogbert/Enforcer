@@ -32,13 +32,17 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure
+ * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure.
+ *
+ * This also applies static compilation to the method using the transform from @CompileStatic.
  *
  * Example:
  * @ReinforceFilter ( { Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })
  *
  * parameters
  * value is the filter for the enforce service, named value so that you don't have to name it
+ * TypeCheckingMode the type checking mode pass or skip.
+ * extensions any type extensions you would like to add, by default this annotation adds the same extensions as @GrailsCompileStatic
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.METHOD])

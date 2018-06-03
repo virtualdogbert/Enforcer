@@ -22,8 +22,10 @@ package com.security.enforcer
 import grails.core.GrailsApplication
 import grails.transaction.Transactional
 import grails.util.Environment
+
 /**
- * The EnforcerService has one enforce method for enforcing business rules, and is extended by the traits it implements.
+ * The EnforcerService has one enforce method for enforcing business rules,, a ReinforceFilter method for filtering, and is extended by
+ * the traits it implements.
  */
 @Transactional
 class EnforcerService {

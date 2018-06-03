@@ -35,23 +35,14 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService at the
- * beginning of the method.
- *
- * This can be applied to a method or a class, but the method will take precedence.
- *
- * The first closure is value, just so that the transform can be called without naming the parameter.
- * If your specifying two or more closures you will have to specify there names in the annotation call.
- * Examples:
- * @Enforce ( { true } )
- * @Enforce ( value = { true } , failure = { println " nice " } )
- * @Enforce ( value = { true } , failure = { println " nice " } , success = { println " not nice " } )
- * @Enforce ( value = { false } , failure = { println " not nice " } , success = { println " nice " } )
+ * The annotation  will statically compile, and make transactional a method or class, with the method taking precedence. However it won't
+ * interfere with enforce based annotations, like the traditional @CompileStatic, and @Transactional will. This annotation takes the same
+ * parameters as @CompileStatic and @Transactional as it uses the  same transforms under the covers.
  *
  * parameters
- * value is the predicate for the enforce service, named value so that you don't have to name it
- * failure is the code to run if the predicate returns false, if not specified, the default for the enforcerService is used.
- * success the code to run if the predicate returns true, if not specified, the default for the enforcerService is used.
+ * TypeCheckingMode the type checking mode pass or skip.
+ * extensions any type extensions you would like to add, by default this annotation adds the same extensions as @GrailsCompileStatic.
+ * All the paramas for @Transactional, listed below.
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.TYPE, ElementType.METHOD])

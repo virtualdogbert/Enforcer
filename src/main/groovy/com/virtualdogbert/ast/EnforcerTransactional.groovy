@@ -32,24 +32,11 @@ import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
+
 /**
- * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService at the
- * beginning of the method.
- *
- * This can be applied to a method or a class, but the method will take precedence.
- *
- * The first closure is value, just so that the transform can be called without naming the parameter.
- * If your specifying two or more closures you will have to specify there names in the annotation call.
- * Examples:
- * @Enforce ( { true } )
- * @Enforce ( value = { true } , failure = { println " nice " } )
- * @Enforce ( value = { true } , failure = { println " nice " } , success = { println " not nice " } )
- * @Enforce ( value = { false } , failure = { println " not nice " } , success = { println " nice " } )
- *
- * parameters
- * value is the predicate for the enforce service, named value so that you don't have to name it
- * failure is the code to run if the predicate returns false, if not specified, the default for the enforcerService is used.
- * success the code to run if the predicate returns true, if not specified, the default for the enforcerService is used.
+ * The annotation  will make the class or method Transactional with the method taking precedence, however it won't interfere with enforce
+ * based annotations, like the traditional @Transactional will. This annotation takes the same parameters as @Transactional as it uses the
+ * same transform under the covers.
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.TYPE, ElementType.METHOD])

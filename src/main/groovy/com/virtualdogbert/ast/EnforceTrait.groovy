@@ -24,6 +24,11 @@ import java.lang.reflect.Modifier
 
 import static org.grails.datastore.mapping.reflect.AstUtils.addAnnotationIfNecessary
 
+/**
+ * This trait provides all the base functionality for various enforcer AST Transforms(wrapping methods, dealing with parameters, etc).
+ * It has one abstract method additionalMethodProcessing, used to apply the actual enforcer transform, and any other addons like
+ * transactionality, static compilation, or both.
+ */
 @CompileStatic
 trait EnforceTrait implements CompilationUnitAware {
     static final String Enforcer_Service      = 'enforcerService'
@@ -64,6 +69,14 @@ trait EnforceTrait implements CompilationUnitAware {
         GrailsASTUtils.processVariableScopes(source, classNode, methodNode)
     }
 
+    /**
+     * Checks a method node for any Enforcer based annotation, returns true if there is one and false otherwise.
+     * This is what is ued to skip over applying class level transforms, if a method level transform exists.
+     *
+     * @param methodNode the method node to check for enforcer annotations
+     *
+     * @return true if the methodNode has any Enforcer based Transform, and false otherwise.
+     */
     boolean hasEnforcerAnnotation(MethodNode methodNode) {
         ClassNode enforceNode = new ClassNode(Enforce.class)
         ClassNode enforceTNode = new ClassNode(EnforceT.class)
@@ -100,6 +113,12 @@ trait EnforceTrait implements CompilationUnitAware {
                methodNode.getAnnotations(TransactionalNodeNew)[0]
     }
 
+    /**
+     * The default visit method, used by the AST transform to add Enforcer transformations to class or method nodes.
+     *
+     * @param nodes An array with the annotation node and the method/class node.
+     * @param sourceUnit the source compilation used used for fixing variable scope.
+     */
     void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
         ClassNode beforeNode = ((AnnotationNode) nodes[0]).classNode
 
@@ -127,6 +146,9 @@ trait EnforceTrait implements CompilationUnitAware {
         }
     }
 
+    /**
+     * List of default expansions to apply to compile static, which is taken from the @GrailsCompileStatic.
+     */
     private static List<String> extensions = ['org.grails.compiler.ValidateableTypeCheckingExtension',
                                               'org.grails.compiler.NamedQueryTypeCheckingExtension',
                                               'org.grails.compiler.HttpServletRequestTypeCheckingExtension',
@@ -135,6 +157,14 @@ trait EnforceTrait implements CompilationUnitAware {
                                               'org.grails.compiler.DomainMappingTypeCheckingExtension',
                                               'org.grails.compiler.RelationshipManagementMethodTypeCheckingExtension']
 
+    /**
+     * Adds compile static to the methodNode passed in, similar to how it's done in @Transactional, but takes extensions from the annotation,
+     * however if there are none provided, then the defaults are the same as @GrailsCompileStatic.
+     *
+     * @param sourceUnit used for calling the visit method of StaticCompileTransformation
+     * @param methodNode the methodNode to apply StaticCompileTransformation to.
+     * @param members The parameters passed in from the original annotation.
+     */
     void compileMethodStatically(SourceUnit sourceUnit, MethodNode methodNode, Map<String, Expression> members = [:]) {
         if (compilationUnit != null) {
 
@@ -159,6 +189,14 @@ trait EnforceTrait implements CompilationUnitAware {
         }
     }
 
+    /**
+     * Adds transactionality to the methodNode passed in, similar to how @CompileStatic it is done in @Transactional, applying the
+     * TransactionalTransform to the methodNode.
+     *
+     * @param sourceUnit used for calling the visit method of TransactionalTransform
+     * @param methodNode the methodNode to apply TransactionalTransform to.
+     * @param members The parameters passed in from the original annotation.
+     */
     void addTransactional(SourceUnit sourceUnit, MethodNode methodNode, Map<String, Expression> members = [:]) {
         if (compilationUnit != null) {
             addAnnotationIfNecessary(methodNode, Transactional)
@@ -171,6 +209,15 @@ trait EnforceTrait implements CompilationUnitAware {
         }
     }
 
+    /**
+     * A helper method to normalize/map the key names used for parameters, Since the original annotation, can have params for Enforcer,
+     * CompileStatic, and Transactional, which all collide over the value key.
+     *
+     * @param key The key to look up the name for.
+     *
+     * @return the member name to use, which is the same as the input unless the input is transactionalValue or staticValue, then the name
+     * returned is value.
+     */
     String getMemberName(String key) {
         if (key == 'transactionalValue' || key == 'staticValue') {
             return 'value'
@@ -179,6 +226,12 @@ trait EnforceTrait implements CompilationUnitAware {
         return key
     }
 
+    /**
+     * Adds members to the annotations node, used for calling the CompileStatic, and Transactional transforms.
+     *
+     * @param annotationNode The annotation node to add members/params to.
+     * @param members The members map of names, to expression.
+     */
     void addMembers(AnnotationNode annotationNode, Map<String, Expression> members) {
         members.each { String key, Expression value ->
             if (key in skipKeys) {
@@ -189,10 +242,21 @@ trait EnforceTrait implements CompilationUnitAware {
         }
     }
 
+    /**
+     * Adds the Enforcer service bean to be later injected to a service, to a MethodNodes ClassNode. This will only add the reference if it
+     * doesn't exist.
+     *
+     * @param methodNode The MethodNode to used to look up it's declaring ClassNode, and add the EnforcerService bean to.
+     */
     void addEnforcerService(MethodNode methodNode) {
         addEnforcerService(methodNode.declaringClass)
     }
 
+    /**
+     * Adds Enforcer service bean to a ClassNode, to be injected later. This will only add the reference if it doesn't exist.
+     *
+     * @param classNode the class node to add the Enforcer Service to.
+     */
     void addEnforcerService(ClassNode classNode) {
 
         if (!classNode.properties*.name.contains(Enforcer_Service)) {
@@ -256,6 +320,14 @@ trait EnforceTrait implements CompilationUnitAware {
         originalMethodCall
     }
 
+    /**
+     * This abstract method is where enforcer transforms, and other transforms(CompileStatic, Transactional) should be applied.
+     *
+     * @param source The source unit to use for fixing variable scope.
+     * @param renamedMethodNode the method node to apply the transforms to.
+     * @param params The Enforcer parameters passed in from the annotation.
+     * @param members The members/parameters passed into the annotation, that can be used for the CompileStatic and Transactional transforms.
+     */
     abstract void additionalMethodProcessing(SourceUnit source, MethodNode renamedMethodNode, List<Expression> params, Map<String, Expression> members)
 
     /**
@@ -302,6 +374,7 @@ trait EnforceTrait implements CompilationUnitAware {
      *  extracts the closure parameters from the members map, into a list in the order that the enforcerService's enforce method expects
      *
      * @param members The map of members / parameters
+     *
      * @return A list of the closure parameters passed to the annotation
      */
     List<Expression> getParamsList(Map members) {
@@ -329,6 +402,7 @@ trait EnforceTrait implements CompilationUnitAware {
      *  Creates the call to the enforcer service, to be injected, using the list of parameters generated from the get ParamsList
      *
      * @param params the list of closure parameters to pass to the enforce method of the enforcer service
+     *
      * @return the statement created for injecting the call to the enforce method of the enforcerService
      */
     Statement createEnforcerCall(List<Expression> params) {

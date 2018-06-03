@@ -29,6 +29,7 @@ import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
+
 /**
  * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService at the
  * beginning of the method.

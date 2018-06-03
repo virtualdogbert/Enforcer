@@ -40,6 +40,8 @@ import java.lang.annotation.Target
  *
  * This can be applied to a method or a class, but the method will take precedence.
  *
+ * This also statically compiles, and adds transactionality to the method, using the transforms from @Transactional, and @CompileStatic.
+ *
  * The first closure is value, just so that the transform can be called without naming the parameter.
  * If your specifying two or more closures you will have to specify there names in the annotation call.
  * Examples:
@@ -52,6 +54,9 @@ import java.lang.annotation.Target
  * value is the predicate for the enforce service, named value so that you don't have to name it
  * failure is the code to run if the predicate returns false, if not specified, the default for the enforcerService is used.
  * success the code to run if the predicate returns true, if not specified, the default for the enforcerService is used.
+ * TypeCheckingMode the type checking mode pass or skip.
+ * extensions any type extensions you would like to add, by default this annotation adds the same extensions as @GrailsCompileStatic.
+ * All the parameters that @ Transactional can take, listed below.
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.TYPE, ElementType.METHOD])

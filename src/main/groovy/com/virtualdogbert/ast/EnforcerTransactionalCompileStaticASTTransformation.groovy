@@ -30,20 +30,16 @@ import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
+
 /**
- * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService at the
- * beginning of the method.
+ * The annotation  will statically compile, and make transactional a method or class, with the method taking precedence. However it won't
+ * interfere with enforce based annotations, like the traditional @CompileStatic, and @Transactional will. This annotation takes the same
+ * parameters as @CompileStatic and @Transactional as it uses the  same transforms under the covers.
  *
- * This can be applied to a method or a class, but the method will take precedence.
- *
- * The first closure is value, just so that the transform can be called without naming the parameter.
- * If your specifying two or more closures you will have to specify there names in the annotation call.
- * Examples:
- * @Enforce ( { true } )
- * @Enforce ( value = { true } , failure = { println " nice " } )
- * @Enforce ( value = { true } , failure = { println " nice " } , success = { println " not nice " } )
- * @Enforce ( value = { false } , failure = { println " not nice " } , success = { println " nice " } )
- *
+ * parameters
+ * TypeCheckingMode the type checking mode pass or skip.
+ * extensions any type extensions you would like to add, by default this annotation adds the same extensions as @GrailsCompileStatic.
+ * All the paramas for @Transactional.
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)

@@ -31,6 +31,7 @@ import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.ASTTransformation
 import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
+
 /**
  * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService
  * at the end of the method before returning

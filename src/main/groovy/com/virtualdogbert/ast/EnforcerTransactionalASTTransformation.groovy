@@ -30,20 +30,11 @@ import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
+
 /**
- * The annotation enforce takes up to 3 closures can injects a call to the enforce method of the enforcerService at the
- * beginning of the method.
- *
- * This can be applied to a method or a class, but the method will take precedence.
- *
- * The first closure is value, just so that the transform can be called without naming the parameter.
- * If your specifying two or more closures you will have to specify there names in the annotation call.
- * Examples:
- * @Enforce ( { true } )
- * @Enforce ( value = { true } , failure = { println " nice " } )
- * @Enforce ( value = { true } , failure = { println " nice " } , success = { println " not nice " } )
- * @Enforce ( value = { false } , failure = { println " not nice " } , success = { println " nice " } )
- *
+ * The annotation  will make the class or method Transactional with the method taking precedence, however it won't interfere with enforce
+ * based annotations, like the traditional @Transactional will. This annotation takes the same parameters as @Transactional as it uses the
+ * same transform under the covers.
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)

@@ -36,11 +36,16 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
 import org.grails.compiler.injection.GrailsASTUtils
 
 /**
- * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure
+ * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure.
+ *
+ * This also adds transactionality to the method using the transform from @Transactional.
  *
  * Example:
- * @ReinforceFilter ( { Object o - > ( o as List ) .findResults{ it % 2 == 0 ? it : null } })
+ * @ReinforceFilter({ Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })
  *
+ * parameters
+ * value is the filter for the enforce service, named value so that you don't have to name it
+ * All the parameters that @ Transactional can take.
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)

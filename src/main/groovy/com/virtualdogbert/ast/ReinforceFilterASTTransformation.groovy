@@ -36,7 +36,7 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
 import org.grails.compiler.injection.GrailsASTUtils
 
 /**
- * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure
+ * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure.
  *
  * Example:
  * @ReinforceFilter ( { Object o - > ( o as List ) .findResults{ it % 2 == 0 ? it : null } })

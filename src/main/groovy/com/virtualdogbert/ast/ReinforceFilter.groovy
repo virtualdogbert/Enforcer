@@ -31,7 +31,7 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure
+ * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure.
  *
  * Example:
  * @ReinforceFilter({ Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })

@@ -34,13 +34,16 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure
+ * The annotation reinforceFilter takes one closure, and filters the return statement of a method based on that closure.
+ *
+ * This also adds transactionality to the method using the transform from @Transactional.
  *
  * Example:
  * @ReinforceFilter({ Object o -> (o as List).findResults { it % 2 == 0 ? it : null } })
  *
  * parameters
  * value is the filter for the enforce service, named value so that you don't have to name it
+ * All the parameters that @ Transactional can take, listed below.
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.METHOD])
