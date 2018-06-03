@@ -31,7 +31,7 @@ trait EnforceTrait implements CompilationUnitAware {
 
     static final ClassNode COMPILE_STATIC_TYPE = ClassHelper.make(CompileStatic)
     static final ClassNode TRANSACTIONAL_TYPE  = ClassHelper.make(Transactional)
-                 List      skipKeys            = ['value', 'failure', 'success']
+    static final List      skipKeys            = ['value', 'failure', 'success']
 
     CompilationUnit compilationUnit
 
@@ -97,7 +97,7 @@ trait EnforceTrait implements CompilationUnitAware {
                methodNode.getAnnotations(NotTransactionalNodeOld)[0] ||
                methodNode.getAnnotations(NotTransactionalNodeNew)[0] ||
                methodNode.getAnnotations(TransactionalNodeOld)[0] ||
-               methodNode.getAnnotations(TransactionalNodeOld)[0]
+               methodNode.getAnnotations(TransactionalNodeNew)[0]
     }
 
     void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
@@ -150,7 +150,7 @@ trait EnforceTrait implements CompilationUnitAware {
 
 
             addAnnotationIfNecessary(methodNode, CompileStatic)
-            def staticCompileTransformation = new StaticCompileTransformation(compilationUnit: compilationUnit)
+            StaticCompileTransformation staticCompileTransformation = new StaticCompileTransformation(compilationUnit: compilationUnit)
             AnnotationNode annotationNode = new AnnotationNode(COMPILE_STATIC_TYPE)
 
             addMembers(annotationNode, members)
@@ -162,7 +162,7 @@ trait EnforceTrait implements CompilationUnitAware {
     void addTransactional(SourceUnit sourceUnit, MethodNode methodNode, Map<String, Expression> members = [:]) {
         if (compilationUnit != null) {
             addAnnotationIfNecessary(methodNode, Transactional)
-            def transactionalTransformation = new TransactionalTransform(compilationUnit: compilationUnit)
+            TransactionalTransform transactionalTransformation = new TransactionalTransform(compilationUnit: compilationUnit)
             AnnotationNode annotationNode = new AnnotationNode(TRANSACTIONAL_TYPE)
 
             addMembers(annotationNode, members)
