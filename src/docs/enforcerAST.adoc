@@ -3,15 +3,57 @@
 video::KvXv3y1D6OE[youtube, width=640, height=360]
 https://youtu.be/KvXv3y1D6OE[Enforcer How The ASTs Work Video]
 
-The Enforcer AST transform Enforce allows you to put enforcer checks on methods, and classes, making then distinguishable from the main logic as business rule/security checks.
+=== How the Enforce AST Transform works:
 
-=== How the Enforce AST Transform was built
+The Enforcer plugin has an
+https://github.com/virtualdogbert/Enforcer/blob/master/src/main/groovy/com/virtualdogbert/ast/EnforceTrait.groovy[EnforcerTrait],
+ where all the work is done. This trait is used in all the variations of the
+Enforce, Reinforce, and ReinforceFilter transforms. For example:
 
-The Enforce Transform was built in the testAst project:
+[source,groovy]
+----
+@EnforceTS({ isCreator(sprocket) })
+Sprocket updateSprocketCompileStatic(Sprocket sprocket) {
+    sprocket.material = 'plastic'
+    (Sprocket)sprocket.save()
+}
+----
 
-https://github.com/virtualdogbert/testAst[Enforcer testAST github]
+Becomes:
 
-Using the ./scripts/_Events.groovy eventCompileStart hook to precompile the Enforce transform. If you import this project into Intellij You will be
-able to set break points in the AST transform, and Intellij will pick them up, which make debugging AST transforms a lot easier.  I also used the
-Groovy/Grails Console, and the Inspect AST mode to see, what statements and expressions make up the code I wanted to write. At some point I will
-upgrade the project to use Grails 3, and use gradle rather then the _Events.groovy.
+[source,groovy]
+----
+ com.security.enforcer.EnforcerService enforcerService
+
+@com.virtualdogbert.ast.EnforceTS(value = {
+    this.isCreator(sprocket)
+}, extensions = ['org.grails.compiler.ValidateableTypeCheckingExtension', 'org.grails.compiler.NamedQueryTypeCheckingExtension', 'org.grails.compiler.HttpServletRequestTypeCheckingExtension', 'org.grails.compiler.WhereQueryTypeCheckingExtension', 'org.grails.compiler.DynamicFinderTypeCheckingExtension', 'org.grails.compiler.DomainMappingTypeCheckingExtension', 'org.grails.compiler.RelationshipManagementMethodTypeCheckingExtension'])
+public com.security.Sprocket updateSprocketCompileStatic(com.security.Sprocket sprocket) {
+    return ((this.$Enforcer_wrapped_method_updateSprocketCompileStatic(sprocket)) as com.security.Sprocket)
+}
+
+@grails.gorm.transactions.Transactional
+@groovy.transform.CompileStatic
+protected com.security.Sprocket $Enforcer_wrapped_method_updateSprocketCompileStatic(com.security.Sprocket sprocket) {
+    org.grails.datastore.mapping.transactions.CustomizableRollbackTransactionAttribute $transactionAttribute = new org.grails.datastore.mapping.transactions.CustomizableRollbackTransactionAttribute()
+    grails.gorm.transactions.GrailsTransactionTemplate $transactionTemplate = new grails.gorm.transactions.GrailsTransactionTemplate( this .transactionManager, $transactionAttribute)
+    return (($transactionTemplate.execute({ org.springframework.transaction.TransactionStatus transactionStatus ->
+        this.$tt__$Enforcer_wrapped_method_updateSprocketCompileStatic(sprocket, transactionStatus)})) as com.security.Sprocket)
+}
+
+protected com.security.Sprocket $tt__$Enforcer_wrapped_method_updateSprocketCompileStatic(com.security.Sprocket sprocket, org.springframework.transaction.TransactionStatus transactionStatus) {
+    enforcerService.enforce({
+        this.isCreator(sprocket)
+    })
+    sprocket .material = 'plastic'
+    ((sprocket.save()) as com.security.Sprocket)
+}
+----
+
+* The first part, is the reference to the EnforcerService.
+* The second part, if the wrapping of original method
+* The third part is the application of @CompileStatic, and @Transactional
+* The forth part is the original method, with the call to the enforcerService
+
+The second wrapping of the original method comes from @Transactional, which is where I got the inspiration to fix/workaround
+the issue created by the Groovy update, checking the parameters of the annotation.

@@ -8,6 +8,12 @@ which will allow you to test the Enforcer service and the Enforce Reinforce, and
 By default the test for a DomainRole is commented out, you will have to comment it back in and replace the Sprocket domain, with one from your own application.
 You will also have to add that domain class to the mock section. Here are some example implementations of the enforcer unit test:
 
-* https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerServiceSpec.groovy[EnforcerServiceSpec.groovy]
-* https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/EnforcerAnnotationSpec.groovy[EnforcerAnnotationSpec.groovy]
-* https://github.com/virtualdogbert/testAst/blob/master/test/unit/com/virtualdogbert/security/ReinforceAnnotationSpec.groovy[ReinforceAnnotationSpec.groovy]
+* https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/test/groovy/services/com/security/enforcer/EnforcerServiceSpec.groovy[EnforcerServiceSpec.groovy]
+* https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/test/groovy/services/com/security/enforcer/EnforcerAnnotationSpec.groovy[EnforcerAnnotationSpec.groovy]
+* https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/test/groovy/services/com/security/enforcer/ReinforceAnnotationSpec.groovy[ReinforceAnnotationSpec.groovy]
+
+Also check out these tests from the test app:
+
+* https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/test/groovy/services/com/security/enforcer/EnforcerTestTServiceSpec.groovy[EnforcerTestTServiceSpec.groovy]
+* https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/integration-test/groovy/services/com/security/enforcer/EnforcerTestTIntegrationServiceSpec.groovy[EnforcerTestTIntegrationServiceSpec.groovy]
+* https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/integration-test/groovy/services/com/security/enforcer/EnforcerTestTSServiceSpec.groovy[EnforcerTestTSServiceSpec.groovy]

@@ -14,9 +14,8 @@ method before the return statement, rather than the beginning. The ReinforceFilt
 
 The EnforcerService, by default implements two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods
 in the traits without injecting any extra calls to services, which makes the calls to the service less verbose, and
-easier to read. The preferred method of extending the Enforcer Service is to add new methods to the traits, modify the
-existing methods in the traits, or add a new trait. These traits make the EnforcerService, and by extension the annotations
-into a DSL for enforcing business rules/permission
+easier to read. The preferred method of extending the Enforcer Service is to add new trait with new methods, or add new methods to the existing
+ traits. These traits make the EnforcerService, and by extension the annotations into a DSL for enforcing business rules/permission
 
 
 The annotations Enforce and Reinforce can be applied to any class or method. When applying the annotation to a class, it
@@ -25,10 +24,5 @@ ReinforceFilter can be applied to any method that returns a valueThe. The Annota
 at compile time, without any third party annotation processor. The annotations make it clear when you are enforcing
 business rules which gets out of the way of your logic code.
 
-The Enforcer plugin was inspired by the limitations, and rigidity  of other frameworks, and the thought that a better
-alternative should exist.
+The Enforcer plugin was inspired by the limitations, and rigidity  of other frameworks, and the thought that a better alternative should exist.
 
-Also Zed Shaw's The ACL is Dead, take this with a grain of salt, it tends to veer off course, but does bring up some valid points:
-
-video::2723800[vimeo, width=640, height=360]
-https://vimeo.com/2723800[The ACL is Dead]

@@ -9,16 +9,22 @@ https://youtu.be/sEHVJ0rqSTU[Getting Started Video]
 
 . Add the Enforcer dependency:
 
+In grails 3.3.x+ add the following dependency to your gradle.build:
+
+----
+compile "org.grails.plugins:enforcer:1.3.4"
+----
+
+In grails 3.0.x to 3.2.x, add the following dependency to your gradle.build:
+
+----
+compile "org.grails.plugins:enforcer:1.3.4"
+----
+
 In Grails 2 add the following to your buildConfig.groovy under the plug-ins section:
 
 ----
 compile ":enforcer:1.2.2"
-----
-
-In grails 3 add the following dependency to your gradle.build:
-
-----
-compile "org.grails.plugins:enforcer:1.3.2"
 ----
 
 4.Run grails enforcer-quickstart <name of the package you installed spring security core under>
@@ -30,9 +36,6 @@ be moved, except the EnforcerService. Moving the EnforcerService will break the 
 
 === Example applications
 
-For Grails 2:
-
-https://github.com/virtualdogbert/testEnforcer2[GitHub testEnforcer2]
 
 For Grails 3:
 
@@ -40,6 +43,11 @@ https://github.com/virtualdogbert/testEnforcer3[GitHub testEnforcer3]
 
 https://github.com/virtualdogbert/Grails3Tutorial/tree/step_11_enforcer_plugin[GitHub Grails3Tutorial]
 
+For Grails 2:
+
+https://github.com/virtualdogbert/testEnforcer2[GitHub testEnforcer2]
+
+
 ----
-The version scheme is Major.GrailsVersion.Minor
+The version scheme was Major.GrailsVersion.Minor however for 2.0.0 I broke that, and just have the latest version for Grails 3.3.x.
 ----

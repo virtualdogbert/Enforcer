@@ -3,6 +3,6 @@
 video::Ek8c-NxQ5QQ[youtube, width=640, height=360]
 https://youtu.be/Ek8c-NxQ5QQ[Extending Enforcer Video]
 
-After you run the Enforcer quick start script, in your services you will have the EnforcerService, the RoleTrait and the DomainRole Trait.
+After you run the Enforcer quick start script, in your services you will have the InstalledEnforcerService, the RoleTrait and the DomainRole Trait.
 You can add function to either of the traits, or add your own traits.  The traits should just be seen as a suggested starting point. You could add
 whatever you need like project, group, or feature flag checks.

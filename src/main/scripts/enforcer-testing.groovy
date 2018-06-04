@@ -35,7 +35,7 @@ render template: template("test/application.groovy.template"),
         overwrite: true
 
 render template: template("test/ApplicationController.groovy.template"),
-        destination: file("grails-app/controller/com/security/enforcer/ApplicationController.groovy"),
+        destination: file("grails-app/controllers/com/security/enforcer/ApplicationController.groovy"),
         model: model,
         overwrite: true
 
@@ -60,12 +60,12 @@ render template: template("test/EnforcerTestTSService.groovy.template"),
         overwrite: true
 
 render template: template("test/integration/EnforcerTestTServiceSpec.groovy.template"),
-        destination: file("src/integration-test/groovy/services/com/security/enforcer/EnforcerTestTServiceSpec.groovy"),
+        destination: file("src/integration-test/groovy/services/services/com/security/enforcer/EnforcerTestTServiceSpec.groovy"),
         model: model,
         overwrite: true
 
 render template: template("test/unit/EnforcerTestTServiceSpec.groovy.template"),
-        destination: file("src/test/groovy/services/com/security/enforcer/EnforcerTestTServiceSpec.groovy"),
+        destination: file("src/test/groovy/services/services/com/security/enforcer/EnforcerTestTServiceSpec.groovy"),
         model: model,
         overwrite: true
 
