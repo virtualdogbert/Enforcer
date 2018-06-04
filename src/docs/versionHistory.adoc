@@ -3,12 +3,14 @@
 ** Upgraded plugin for use with Grails 3.3.x, because a change in Groovy broke, compatibility between @CompileStatic and the Enforcer
 annotations.
 ** Added more annotations to give a workaround for dealing with @CompileStatic, and @Transactional.
-** Moved most of the functionality of the Annotations to a Trait.
+** Moved most of the functionality of the Annotations to a common Trait.
 ** Made the annotations inject a reference to the Enforcer Service bean, at compile time, so that Spring with wire the reference.
 ** Replaced generating a call to get the enforcerService, by getting Holders and looking, up the bean, with a direct call to the service.
 ** Moved the service into the plugin, as a base implementation.
 ** Updated the install script to install a version of the Enforcer service, and wire it in the resources.groovy.
 ** Added a separate install script for generating more extensive tests, meant for debugging enforcer.
+** Added a new test application: https://github.com/virtualdogbert/testEnforcer33[testEnforcer33]
+** Updated documentation
 * 1.3.4
 ** Fixing Issue with arguments list in deployed war
 * 1.3.3
