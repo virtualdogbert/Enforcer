@@ -4,19 +4,34 @@ video::z0c18A3lB60[youtube, width=640, height=360]
 https://youtu.be/z0c18A3lB60[Intro Video]
 
 The Enforcer Plugin, gives you the tools to enforce business rules, and or permissions. Enforcer is light weight, easy to  maintain, extend and, use.
-The plugin works off of a EnforcerService in conjunction with the  Enforce, Reinforce, and  ReinforceFilter Annotations(AST transforms).
+The plugin works off of an EnforcerService in conjunction with the  Enforce, Reinforce, and  ReinforceFilter Annotations(AST transforms).
 
+[source,groovy]
+----
+service.enforce({ true }, { throw new EnforcerException("not nice") }, { println "nice" })
+----
 
 For Enforcement the service takes up to 3 closures, a predicate, a failure(defaults to an EnforcerException if not specified) and a
 success(defaulted to a closure that returns true). The predicate is evaluated, if it returns true, the the success closure is evaluated, else the
 failure closure is evaluated. With this you can enforce any business rule you need. Reinforce does the same, but is injected at the end of the
 method before the return statement, rather than the beginning. The ReinforceFilter allows you to filter the returned value of any method.
 
-The EnforcerService, by default implements two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods
-in the traits without injecting any extra calls to services, which makes the calls to the service less verbose, and
-easier to read. The preferred method of extending the Enforcer Service is to add new trait with new methods, or add new methods to the existing
- traits. These traits make the EnforcerService, and by extension the annotations into a DSL for enforcing business rules/permission
+[source,groovy]
+----
+    @Enforce({ true })
+    def closureTrue() {
+        println 'nice'
+    }
 
+    @Enforce(
+        value = { true },
+        failure = { throw new EnforcerException("not nice"),
+        succes = {true} }
+    )
+    def closureTrueWithFailureClosure() {
+        println 'nice'
+    }
+----
 
 The annotations Enforce and Reinforce can be applied to any class or method. When applying the annotation to a class, it
 will then be applied to all the methods in the class, and be overridden if it is also applied at any of the methods. The
@@ -25,4 +40,3 @@ at compile time, without any third party annotation processor. The annotations m
 business rules which gets out of the way of your logic code.
 
 The Enforcer plugin was inspired by the limitations, and rigidity  of other frameworks, and the thought that a better alternative should exist.
-

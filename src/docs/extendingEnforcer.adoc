@@ -4,5 +4,8 @@ video::Ek8c-NxQ5QQ[youtube, width=640, height=360]
 https://youtu.be/Ek8c-NxQ5QQ[Extending Enforcer Video]
 
 After you run the Enforcer quick start script, in your services you will have the InstalledEnforcerService, the RoleTrait and the DomainRole Trait.
-You can add function to either of the traits, or add your own traits.  The traits should just be seen as a suggested starting point. You could add
-whatever you need like project, group, or feature flag checks.
+The InstalledEnforcerService, by default implements the two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods
+in the traits, without injecting any extra calls to services, which the Enforcer checks less verbose, and
+easier to read. The preferred method of extending the Enforcer Service is to add new trait with new methods, or add new methods to the existing
+ traits. These traits make the EnforcerService, and by extension the annotations into a DSL for enforcing business rules/permissions. The
+ traits should just be seen as a suggested starting point. You could add whatever you need like project, group, feature flag checks, etc.
