@@ -51,7 +51,7 @@ trait EnforceTrait implements CompilationUnitAware {
      * @param fromClass If the annotation comes from the class level
      */
     void wrapMethod(SourceUnit source, ClassNode classNode, MethodNode methodNode, List<Expression> params, Map<String, Expression> members, boolean fromClass) {
-        if (fromClass && hasEnforcerAnnotation(methodNode)) {
+        if (fromClass && hasEnforcerAnnotation(methodNode) || methodNode.name.startsWith('$')) {
             return
             //If the annotation is from the class level, but the method node has it's own @Enforce annotation don't apply the class level logic.
         }
