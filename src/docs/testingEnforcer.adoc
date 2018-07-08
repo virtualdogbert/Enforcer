@@ -1,9 +1,7 @@
 == Testing
-video::H4GLZ3xt8u4[youtube, width=640, height=360]
-https://youtu.be/H4GLZ3xt8u4[Testing Video]
 
 The quick start will install the unit tests EnforcerServiceSpec.groovy, EnforcerAnnotationSpec.groovy and, ReinforceAnnotationSpec.groovy,
-which will allow you to test the Enforcer service and the Enforce Reinforce, and ReinforceFilter annotations(AST Transforms):
+which will allow you to test the Enforcer service and the Enforce, Reinforce, and ReinforceFilter annotations(AST Transforms):
 
 By default the test for a DomainRole is commented out, you will have to comment it back in and replace the Sprocket domain, with one from your own application.
 You will also have to add that domain class to the mock section. Here are some example implementations of the enforcer unit test:

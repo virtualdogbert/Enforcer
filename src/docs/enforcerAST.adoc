@@ -1,9 +1,6 @@
 == The Enforcer AST Transforms
 
-video::KvXv3y1D6OE[youtube, width=640, height=360]
-https://youtu.be/KvXv3y1D6OE[Enforcer How The ASTs Work Video]
-
-=== How the Enforce AST Transform works:
+=== How the Enforce AST Transform works
 
 The Enforcer plugin has an
 https://github.com/virtualdogbert/Enforcer/blob/master/src/main/groovy/com/virtualdogbert/ast/EnforceTrait.groovy[EnforcerTrait],
@@ -51,9 +48,5 @@ protected com.security.Sprocket $tt__$Enforcer_wrapped_method_updateSprocketComp
 ----
 
 * The first part, is the reference to the EnforcerService.
-* The second part, if the wrapping of original method
-* The third part is the application of @CompileStatic, and @Transactional
-* The forth part is the original method, with the call to the enforcerService
-
-The second wrapping of the original method comes from @Transactional, which is where I got the inspiration to fix/workaround
-the issue created by the Groovy update, checking the parameters of the annotation.
+* The second part, is the wrapping of original method, and the application of @CompileStatic, and @Transactional.
+* The third part is the original method, with the call to the enforcerService injected.

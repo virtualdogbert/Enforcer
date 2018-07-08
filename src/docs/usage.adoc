@@ -1,17 +1,13 @@
 == Usage
 
-video::vUxjOV8YmoU[youtube, width=640, height=360]
-https://youtu.be/vUxjOV8YmoU[Usage Video]
-
-
 === Enforcer 2.0.0
 In Grails 3.3.x, there was a change to the Groovy version that broke Enforcers compatibility with @CompileStatic, and by extension
-@Transactional, because @CompileStatic now statically checks the parameters used in annotation. This lead to compilation errors. To work
-around this I changed how the enforcer annotations work,so that now create a new method in the place of the original, and copy the orginal
-method to a new method. So enforcer creates a wrapper proxying the ordinal method. With this I was able to apply the Transforms from
-@CompileStatic and @Transactional to the original copy, Which won't have the enforcer annotation, and won't throw an compilation error.
+@Transactional, because @CompileStatic now statically checks the parameters used in annotations. This lead to compilation errors. To work
+around this @Enforce create a new method in the place of the original, and copy the original method to a new method, making a wrapper
+proxying the original method. With The wrapper @Enforcer applies the Transforms from @CompileStatic and @Transactional to the original copy,
+Which won't have the enforcer annotation, and won't throw an compilation error.
 
-So now in addition to the annotations Enforce, Reinforce, and ReinforceFilter, there are variations that add transactionality, static
+In addition to the annotations Enforce, Reinforce, and ReinforceFilter, there are now variations that add transactionality, static
 compilation, or both. the vacations are denoted with S, for compile static, and T for Transactional. The complete list being:
 
 * @Enforce // Original
@@ -27,8 +23,8 @@ compilation, or both. the vacations are denoted with S, for compile static, and 
 ** @ReinforceFilterT  //Add Transactionality to the original
 ** @ReinforceFilterTS //Statically compiles, and adds Transactionality to the original method.
 
-In addition to those annitations two more annotations were added that are the same as @Transactional and @CompileStatic, but
-they won't interfear with the enforcer annotations:
+In addition to those annotations two more annotations were added that are the same as @Transactional and @CompileStatic, but
+they won't interfere with the enforcer annotations:
 
 * @EnforcerCompileStatic
 * @EnforcerTransactional
@@ -36,7 +32,7 @@ they won't interfear with the enforcer annotations:
 
 === Code Examples
 
-Check to domain role for the role owner on the Sprocket domain instance for a user:
+Checks the domain role for the role owner on the Sprocket domain instance for a user:
 
 [source,groovy]
 ----
@@ -85,7 +81,7 @@ method, if you are not using def:
 ----
 
 
-For More examples check out the unit tests:
+For more examples check out the unit tests:
 
 * https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/test/groovy/services/com/security/enforcer/EnforcerTestTServiceSpec.groovy[EnforcerTestTServiceSpec.groovy]
 * https://github.com/virtualdogbert/testEnforcer33/blob/master/server/src/test/groovy/services/com/security/enforcer/EnforcerServiceSpec.groovy[EnforcerServiceSpec.groovy]

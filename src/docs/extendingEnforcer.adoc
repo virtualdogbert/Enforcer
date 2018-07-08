@@ -1,11 +1,38 @@
 == Extending Enforcer
 
-video::Ek8c-NxQ5QQ[youtube, width=640, height=360]
-https://youtu.be/Ek8c-NxQ5QQ[Extending Enforcer Video]
-
 After you run the Enforcer quick start script, in your services you will have the InstalledEnforcerService, the RoleTrait and the DomainRole Trait.
-The InstalledEnforcerService, by default implements the two traits, RoleTrait, and DomainRoleTrait. This is so you can use the methods
-in the traits, without injecting any extra calls to services, which the Enforcer checks less verbose, and
-easier to read. The preferred method of extending the Enforcer Service is to add new trait with new methods, or add new methods to the existing
- traits. These traits make the EnforcerService, and by extension the annotations into a DSL for enforcing business rules/permissions. The
- traits should just be seen as a suggested starting point. You could add whatever you need like project, group, feature flag checks, etc.
+In the InstalledEnforcerService, you can add your own traits to extent the DSL like functionality of the Enforcer annotations. This will
+help keep your Enforcer checks short and readable.
+
+
+For example if you add a new CreatorTrait to the InstalledEnforcerService like this:
+[source,groovy]
+----
+class InstalledEnforcerService extends EnforcerService implements RoleTrait,DomainRoleTrait, CreatorTrait{
+----
+
+With the trait being:
+[source,groovy]
+----
+trait CreatorTrait {
+    def springSecurityService
+
+    Boolean isCreator(def domainObject, User user = null) {
+        if (!user) {
+            return domainObject.creator == springSecurityService.currentUser
+        }
+
+        domainObject.creator.id == user.id
+    }
+
+}
+----
+
+Then you could do enforcer checks like:
+[source,groovy]
+----
+@EnforceT({isCreator(sprocket)})
+Sprocket update(Sprocket sprocket, String material){
+ //update the sprocket
+}
+----

@@ -28,7 +28,7 @@ import ${packageName}.User
 trait DomainRoleTrait {
 
     /**
-     *  This method will check if a user(defaulting to the currently logged in user, has a DomainRole on an object.
+     *  This method will check if a user(defaulting to the currently logged in user), has a DomainRole on an object.
      *
      *  @param  role the role to check to see if the user has on the domainObject
      *  @param domainObject the instance of the domain object to check if the user has a DomainRole on

@@ -6,11 +6,13 @@ include::gettingStarted.adoc[]
 
 include::usage.adoc[]
 
-include::whyUseEnforcer.adoc[]
+include::domainRole.adoc[]
 
 include::extendingEnforcer.adoc[]
 
 include::testingEnforcer.adoc[]
+
+include::whyUseEnforcer.adoc[]
 
 include::enforcerAST.adoc[]
 

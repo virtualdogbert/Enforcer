@@ -1,8 +1,5 @@
 == Getting Started
 
-video::sEHVJ0rqSTU[youtube, width=640, height=360]
-https://youtu.be/sEHVJ0rqSTU[Getting Started Video]
-
 . Have the Spring Security Core plug-in installed
 
 . Make sure you've run the quick start(e.g. grails s2-quickstart com.security User Role) note the package name
@@ -30,7 +27,7 @@ compile ":enforcer:1.2.2"
 4.Run grails enforcer-quickstart <name of the package you installed spring security core under>
 
 WARNING: This is for imports, all files will be installed to the com.security.enforcer package. Any of the files can
-be moved, except the EnforcerService. Moving the EnforcerService will break the IDE integration.
+be moved, except the InstalledEnforcerService. Moving the InstalledEnforcerService will break the IDE integration.
 
 5.Check the Usage section and start using Enforcer.
 

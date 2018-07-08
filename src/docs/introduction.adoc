@@ -1,8 +1,5 @@
 == Introduction
 
-video::z0c18A3lB60[youtube, width=640, height=360]
-https://youtu.be/z0c18A3lB60[Intro Video]
-
 The Enforcer Plugin, gives you the tools to enforce business rules, and or permissions. Enforcer is light weight, easy to  maintain, extend and, use.
 The plugin works off of an EnforcerService in conjunction with the  Enforce, Reinforce, and  ReinforceFilter Annotations(AST transforms).
 
@@ -35,8 +32,11 @@ method before the return statement, rather than the beginning. The ReinforceFilt
 
 The annotations Enforce and Reinforce can be applied to any class or method. When applying the annotation to a class, it
 will then be applied to all the methods in the class, and be overridden if it is also applied at any of the methods. The
-ReinforceFilter can be applied to any method that returns a valueThe. The Annotations are AST transforms so they are applied
+ReinforceFilter can be applied to any method that returns a value. The Annotations are AST transforms so they are applied
 at compile time, without any third party annotation processor. The annotations make it clear when you are enforcing
 business rules which gets out of the way of your logic code.
+
+The default implementation installed with the plugin introduces a DomainRole for permissions. This is just a default implementation, which
+you can use, or replace with your own. Check out the Extending Enforcer section for more info.
 
 The Enforcer plugin was inspired by the limitations, and rigidity  of other frameworks, and the thought that a better alternative should exist.

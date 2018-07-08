@@ -1,12 +1,9 @@
-== Why use Enforcer?
-
-video::32h7WDRJmlU[youtube, width=640, height=360]
-https://youtu.be/32h7WDRJmlU[Why User Enforcer Video]
+== Enforcer vs Spring Security ACL and others?
 
 So why would you want to use Enforcer?
 
 With Enforcer I try to set you up to be successful, in enforcing business rules/permissions, in a way that is easy to
-read,is expendable without the limitations I see in other frameworks. So lets take a look at alternatives, and how Enforcer
+read, and is expendable, without the limitations I see in other frameworks. So lets take a look at alternatives, and how Enforcer
 addresses some of there limitations.
 
 === Spring Security ACL
@@ -16,19 +13,19 @@ addresses some of there limitations.
 . It uses a highly normalized set for domains/tables for storing permission. This means that querying the db will involve many joins, which will slow down the writing and running of queries.
 . Updating permission especially in bulk can be really slow, because of the built-in caching. If you use direct SQL you have to invalidate the plug-ins internal cache.
 . The annotation is a Spring Proxy, so it only gets called if you are calling from outside the class, the annotation is in. This can lead to a false sense of security, or false negatives.
-. If you are not using a hierarchy for your permission, which I don't see a config option for, you will end up with a lot of permissions in the db. I've seen it as bad and 400,000 permission entries for just over a 1000 containers.
-. Extending the plug-in is not straight forward. Adding new permissions isn't bad but you have to deal with the "bit mask". However if you want to add functions that can be called in the EL expression... good luck.  Adding new functions that you can call would involve some been overrides,  and extending classes. I've tried it twice and it didn't work either time.  I do thing however you maybe able to call services from within the EL, with the current version, but don't quote me on that.
+. If you are not using a hierarchy for your permission, which I don't see a config option for, you will end up with a lot of permissions in the db. I've seen it as bad as 400,000 permission entries for just over a 1000 containers.
+. Extending the plug-in is not straight forward. Adding new permissions isn't bad, but you have to deal with the "bit mask". However if you want to add functions that can be called in the EL expression... good luck.  Adding new functions that you can call would involve some been overrides,  and extending classes. I've tried it twice and it didn't work either time.  I do think however you maybe able to call services from within the EL, with the current version, but don't quote me on that.
 . It's somewhat hard to setup tests for your annotations.
 
 === Shiro
 . I'll be honest I don't really get Shiro, and I haven't taken the time to understand it. The permissions aren't as readable as I would like.
-. I know the library of Shiro not the plugin does have annotations, but I suspect that they would have the same issue that the spring security has, being proxies.
+. I know the library of Shiro, not the plugin does have annotations, but I suspect that they would have the same issue that the spring security has, being proxies.
 
 === Drools
 . I never used it, but I haven't heard good things, and from what I can see the plugins are not being actively maintained.
 
 === GContracts
-. It seems the last commit was 4 years ago, and it wan't meant to work with Grails:
+. It seems the last commit was 4 years ago, and it wasn't meant to work with Grails:
 
 https://github.com/andresteingress/gcontracts/wiki/GContracts-in-Spring-and-Grails-Applications
 
@@ -44,7 +41,7 @@ https://github.com/andresteingress/gcontracts/wiki/GContracts-in-Spring-and-Grai
 . Testing is easy see the EnforcerServiceSpec for examples.
 
 For the rest I don't see them as viable competition at this point, mainly, because most of them aren't being maintained.
-All of these tools had there usage, but I think it's time for something better, and in the future maybe a better plugin
+All of these tools had their usage, but I think it's time for something better, and in the future maybe a better plugin
 will be written, than Enforcer.
 
 

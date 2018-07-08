@@ -4,7 +4,7 @@
 annotations.
 ** Added more annotations to give a workaround for dealing with @CompileStatic, and @Transactional.
 ** Moved most of the functionality of the Annotations to a common Trait.
-** Made the annotations inject a reference to the Enforcer Service bean, at compile time, so that Spring with wire the reference.
+** Made the annotations inject a reference to the Enforcer Service bean, at compile time, so that Spring will wire the reference.
 ** Replaced generating a call to get the enforcerService, by getting Holders and looking, up the bean, with a direct call to the service.
 ** Moved the service into the plugin, as a base implementation.
 ** Updated the install script to install a version of the Enforcer service, and wire it in the resources.groovy.
