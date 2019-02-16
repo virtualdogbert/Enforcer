@@ -6,3 +6,7 @@ target
 *.zip*
 plugin.xml
 *taskArtifacts*
+gradle/*
+gradlew
+gradlew.bat
+.gradle/*
