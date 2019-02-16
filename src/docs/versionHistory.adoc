@@ -1,4 +1,6 @@
 == Version History
+* 2.0.1
+** Removing extra import from InstalledEnforcerService template `import grails.transaction.Transactional`
 * 2.0.0
 ** Upgraded plugin for use with Grails 3.3.x, because a change in Groovy broke, compatibility between @CompileStatic and the Enforcer
 annotations.
