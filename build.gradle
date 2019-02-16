@@ -72,8 +72,6 @@ bootRun {
 bootRepackage.enabled = false
 
 grailsPublish {
-    user = 'user'
-    key = 'key'
     githubSlug = 'enforcer'
     license {
         name = 'Apache-2.0'
