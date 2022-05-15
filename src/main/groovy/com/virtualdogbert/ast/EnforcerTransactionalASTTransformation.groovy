@@ -23,6 +23,7 @@
 
 package com.virtualdogbert.ast
 
+import groovy.transform.CompilationUnitAware
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.expr.Expression
@@ -38,7 +39,7 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-class EnforcerTransactionalASTTransformation extends AbstractASTTransformation implements EnforceTrait {
+class EnforcerTransactionalASTTransformation extends AbstractASTTransformation implements EnforceTrait, CompilationUnitAware {
 
     void additionalMethodProcessing(SourceUnit source, MethodNode renamedMethodNode, List<Expression> params, Map<String, Expression> members) {
         addTransactional(source, renamedMethodNode, members)

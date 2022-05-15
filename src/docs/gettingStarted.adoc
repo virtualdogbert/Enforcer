@@ -1,27 +1,20 @@
 == Getting Started
 
-. Have the Spring Security Core plug-in installed
+. Have the Spring Security Core plug-in installed.
 
-. Make sure you've run the quick start(e.g. grails s2-quickstart com.security User Role) note the package name
+. Make sure you've run the quick start(e.g. grails s2-quickstart com.security User Role) note the package name.
 
 . Add the Enforcer dependency:
 
-In grails 3.3.x+ add the following dependency to your gradle.build:
-
+In Grails 5.1.7+ add the following dependency to your gradle.build:
 ----
-compile "org.grails.plugins:enforcer:2.0.0"
-----
-
-In grails 3.0.x to 3.2.x, add the following dependency to your gradle.build:
-
-----
-compile "org.grails.plugins:enforcer:1.3.4"
+implementation "org.grails.plugins:enforcer:3.0.0"
 ----
 
-In Grails 2 add the following to your buildConfig.groovy under the plug-ins section:
+In legacy versions of Grails 3.3.x+ add the following dependency to your gradle.build:
 
 ----
-compile ":enforcer:1.2.2"
+compile "org.grails.plugins:enforcer:2.0.1"
 ----
 
 4.Run grails enforcer-quickstart <name of the package you installed spring security core under>
@@ -37,17 +30,3 @@ For Grails 3.3.x:
 
 https://github.com/virtualdogbert/testEnforcer33[GitHub testEnforcer33]
 
-For Grails 3:
-
-https://github.com/virtualdogbert/testEnforcer3[GitHub testEnforcer3]
-
-https://github.com/virtualdogbert/Grails3Tutorial/tree/step_11_enforcer_plugin[GitHub Grails3Tutorial]
-
-For Grails 2:
-
-https://github.com/virtualdogbert/testEnforcer2[GitHub testEnforcer2]
-
-
-----
-The version scheme was Major.GrailsVersion.Minor however for 2.0.0 I broke that, and just have the latest version for Grails 3.3.x.
-----

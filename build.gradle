@@ -4,43 +4,26 @@ buildscript {
         maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+        classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
     }
 }
 
 plugins {
-    id 'com.jfrog.bintray' version '1.2'
+    id 'maven-publish'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'idea'
+    id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
 }
 
-version '2.0.1'
-group 'org.grails.plugins'
+version '3.0.0'
+group 'io.github.virtualdogbert'
 
-apply plugin:'eclipse'
-apply plugin:'idea'
 apply plugin:'org.grails.grails-plugin'
-apply plugin:'org.grails.grails-plugin-publish'
-apply plugin: 'org.asciidoctor.convert'
 
-bintray {
-    pkg {
-        userOrg = 'virtualdogbert'
-        repo = 'plugins'
-        name = "$project.group:$project.name"
-        issueTrackerUrl = 'https://github.com/virtualdogbert/Enforcer/issues'
-        vcsUrl = 'https://github.com/virtualdogbert/Enforcer'
-        websiteUrl = 'https://virtualdogbert.github.io/Enforcer'
-        licenses = ['Apache-2.0']
-        version {
-            attributes = ['grails-plugin': "$project.group:$project.name"]
-            name = project.version
-        }
-    }
-}
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenLocal()
@@ -48,46 +31,33 @@ repositories {
 }
 
 dependencies {
-    provided 'org.springframework.boot:spring-boot-starter-logging'
-    provided 'org.springframework.boot:spring-boot-starter-actuator'
-    provided 'org.springframework.boot:spring-boot-autoconfigure'
-    provided 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 
-    provided 'org.grails:grails-web-boot'
-    provided 'org.grails:grails-dependencies'
-    provided 'javax.servlet:javax.servlet-api:3.1.0'
-
-    testCompile 'org.grails:grails-plugin-testing'
-
-    console 'org.grails:grails-console'
+    implementation 'org.grails:grails-web-boot'
+    implementation 'org.grails:grails-dependencies'
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
 }
 
 bootRun {
-    jvmArgs('-Dspring.output.ansi.enabled=always')
-    addResources = true
+    ignoreExitValue true
+    jvmArgs(
+        '-Dspring.output.ansi.enabled=always',
+        '-noverify',
+        '-XX:TieredStopAtLevel=1',
+        '-Xmx1024m')
+    sourceResources sourceSets.main
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
 }
-// enable if you wish to package this plugin as a standalone application
-bootRepackage.enabled = false
-
-grailsPublish {
-    githubSlug = 'enforcer'
-    license {
-        name = 'Apache-2.0'
-    }
-    title = 'Enforcer'
-    desc = 'A plugin for enforcing business rules/permissions, that works with Spring Security Core, is easier to implement, and extend. It can also be used as an alternative to Spring Security ACL'
-    developers = [tpelletier:'Tucker Pelletier']
-}
-
 
 def asciidoctorAttributes = [
         copyright           : 'Apache License, Version 2.0',
         docinfo1            : 'true',
         doctype             : 'book',
         encoding            : 'utf-8',
-        'front-cover-image' : 'image:cover.png[Front Cover,800,600]',
         icons               : 'font',
         id                  : project.name + ':' + project.version,
         idprefix            : '',
@@ -104,35 +74,77 @@ def asciidoctorAttributes = [
         toclevels           : '2'
 ]
 
-import org.asciidoctor.gradle.AsciidoctorTask
+asciidoctor {
+  sourceDir  file('src/docs')
+  outputDir  file('build/docs')
+    baseDirFollowsSourceDir()
 
-tasks.withType(AsciidoctorTask) {
-    attributes asciidoctorAttributes
-    outputDir new File(buildDir, 'docs')
-    separateOutputDirs = false
-    sourceDir = file('src/docs')
-    sources {
-        include 'index.adoc'
+    asciidoctorj {
+        attributes = asciidoctorAttributes
     }
 }
 
-task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML, and PDF') {
-    backends 'html5', 'pdf'
-}
+publishing {
+    publications {
+        maven(MavenPublication) {
 
-task docs(dependsOn: [asciidoc]) {
+            groupId = project.group
+            artifactId = 'enforcer'
+            version = project.version
 
-    File dir = new File(buildDir, 'docs')
-    ['pdf'].each { String ext ->
-        File f = new File(dir, 'index.' + ext)
-        if (f.exists()) {
-            f.renameTo new File(dir, project.name + '-' + project.version + '.' + ext)
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'Enforcer'
+                description = 'A plugin for enforcing business rules/permissions, that works with Spring Security Core, is easier to implement, and extend. It can also be used as an alternative to Spring Security ACL'
+                url = 'https://github.com/virtualdogbert/Enforcer'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'virtualdogbert'
+                        name = 'Tucker J. Pelletier'
+                        email = 'virtualdogbert@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/virtualdogbert/Enforcer.git'
+                    developerConnection = 'scm:git:ssh://github.com:virtualdogbert/Enforcer.git'
+                    url = 'https://github.com/virtualdogbert/Enforcer/tree/master'
+                }
+            }
+
+            repositories {
+                    maven {
+                        url = gitHubMavenRepo
+                        credentials {
+                            username = project.findProperty("gpr.user") ?: userName
+                            password = project.findProperty("gpr.key") ?: accessToken
+                        }
+                    }
+                }
         }
-    }
 
-    copy {
-        from 'src/docs'
-        into new File(buildDir, 'docs').path
-        include '**/*.png'
+
+    }
+}
+
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
+            password = System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
+            stagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID") ?: project.hasProperty("sonatypeOssStagingProfileId") ? project.sonatypeOssStagingProfileId : ''
+        }
     }
 }

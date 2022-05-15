@@ -32,7 +32,7 @@ method before the return statement, rather than the beginning. The ReinforceFilt
 
 The annotations Enforce and Reinforce can be applied to any class or method. When applying the annotation to a class, it
 will then be applied to all the methods in the class, and be overridden if it is also applied at any of the methods. The
-ReinforceFilter can be applied to any method that returns a value. The Annotations are AST transforms so they are applied
+ReinforceFilter can be applied to any method that returns a value. The Annotations are AST transforms, so they are applied
 at compile time, without any third party annotation processor. The annotations make it clear when you are enforcing
 business rules which gets out of the way of your logic code.
 

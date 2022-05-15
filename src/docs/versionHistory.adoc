@@ -1,4 +1,10 @@
 == Version History
+* 3.0.0
+** No functional changes, just updating dependency versions, and releasing to maven central.
+*** Updating to The Latest Grails version
+*** Updating to a new version of Gradle
+*** Adding github action for building
+*** Adding nexus build code for releasing to Maven Central
 * 2.0.1
 ** Removing extra import from InstalledEnforcerService template `import grails.transaction.Transactional`
 * 2.0.0

@@ -3,7 +3,6 @@ package com.virtualdogbert.ast
 import com.security.enforcer.EnforcerService
 import grails.compiler.ast.GrailsArtefactClassInjector
 import grails.gorm.transactions.Transactional
-import groovy.transform.CompilationUnitAware
 import groovy.transform.CompileStatic
 import groovyjarjarasm.asm.Opcodes
 import org.codehaus.groovy.ast.*
@@ -23,14 +22,13 @@ import org.grails.datastore.gorm.transactions.transform.TransactionalTransform
 import java.lang.reflect.Modifier
 
 import static org.grails.datastore.mapping.reflect.AstUtils.addAnnotationIfNecessary
-
 /**
  * This trait provides all the base functionality for various enforcer AST Transforms(wrapping methods, dealing with parameters, etc).
  * It has one abstract method additionalMethodProcessing, used to apply the actual enforcer transform, and any other addons like
  * transactionality, static compilation, or both.
  */
 @CompileStatic
-trait EnforceTrait implements CompilationUnitAware {
+trait EnforceTrait  {
     static final String Enforcer_Service      = 'enforcerService'
     static final String Method_Wrapper_Prefix = '$Enforcer_wrapped_method_'
 
@@ -90,9 +88,9 @@ trait EnforceTrait implements CompilationUnitAware {
         ClassNode reinforceFilterTNode = new ClassNode(ReinforceFilterT.class)
         ClassNode reinforceFilterSNode = new ClassNode(ReinforceFilterS.class)
         ClassNode reinforceFilterTSNode = new ClassNode(ReinforceFilterS.class)
-        ClassNode NotTransactionalNodeOld = new ClassNode(grails.transaction.NotTransactional.class)
+        ClassNode NotTransactionalNodeOld = new ClassNode(grails.gorm.transactions.NotTransactional.class)
         ClassNode NotTransactionalNodeNew = new ClassNode(grails.gorm.transactions.NotTransactional.class)
-        ClassNode TransactionalNodeOld = new ClassNode(grails.transaction.Transactional.class)
+        ClassNode TransactionalNodeOld = new ClassNode(grails.gorm.transactions.Transactional.class)
         ClassNode TransactionalNodeNew = new ClassNode(grails.gorm.transactions.Transactional.class)
 
         return methodNode.getAnnotations(enforceNode)[0] ||

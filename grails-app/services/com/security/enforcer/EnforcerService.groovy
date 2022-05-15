@@ -20,7 +20,7 @@
 package com.security.enforcer
 
 import grails.core.GrailsApplication
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import grails.util.Environment
 
 /**

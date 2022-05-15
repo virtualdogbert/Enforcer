@@ -22,6 +22,7 @@
 
 package com.virtualdogbert.ast
 
+import groovy.transform.CompilationUnitAware
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.*
@@ -51,7 +52,7 @@ import org.grails.compiler.injection.GrailsASTUtils
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-class ReinforceFilterTSASTTransformation extends AbstractASTTransformation implements EnforceTrait, ASTTransformation {
+class ReinforceFilterTSASTTransformation extends AbstractASTTransformation implements EnforceTrait, CompilationUnitAware, ASTTransformation {
 
     @Override
     void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
