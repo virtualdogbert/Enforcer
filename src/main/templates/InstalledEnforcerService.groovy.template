@@ -19,6 +19,7 @@
 
 package com.security.enforcer
 
+import grails.core.GrailsApplication
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.util.Environment
@@ -47,7 +48,7 @@ class InstalledEnforcerService extends EnforcerService implements RoleTrait,Doma
             @DelegatesTo(InstalledEnforcerService)Closure failure = { -> throw new EnforcerException("Access Denied") },
             @DelegatesTo(InstalledEnforcerService)Closure success = { -> true }) {
 
-        if (Environment.current != Environment.TEST || grailsApplication.config.enforcer.enabled) {
+        if (Environment.current != Environment.TEST || grailsApplication.config.getProperty('enforcer.enabled')) {
             predicate.delegate = this
             failure.delegate = this
             success.delegate = this

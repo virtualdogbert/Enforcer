@@ -22,8 +22,8 @@ group 'io.github.virtualdogbert'
 apply plugin:'org.grails.grails-plugin'
 
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenLocal()
@@ -31,11 +31,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure'
-    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-
     implementation 'org.grails:grails-web-boot'
     implementation 'org.grails:grails-dependencies'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
@@ -136,6 +131,13 @@ publishing {
     }
 }
 
+
+afterEvaluate {
+    signing {
+        //required { gradle.taskGraph.hasTask("publish") || gradle.taskGraph.hasTask("publishMavenPublicationToMavenLocal") }
+        sign publishing.publications.maven
+    }
+}
 
 nexusPublishing {
     repositories {

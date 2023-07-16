@@ -21,8 +21,6 @@ package services.com.security.enforcer
 import com.security.Sprocket
 import com.security.User
 import com.security.enforcer.EnforcerTestTService
-import com.virtualdogbert.ast.Enforce
-import com.virtualdogbert.ast.Reinforce
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.testing.mixin.integration.Integration
@@ -91,10 +89,7 @@ class EnforcerTestTServiceSpec extends Specification {
             enforcerTestTService.updateSprocketCompileStaticException(sprocketSaved)
         then:
             thrown RuntimeException
-
-            Sprocket.withNewTransaction {
-                Sprocket.get(5).material == 'metal'
-            }
+        Sprocket.get(sprocketSaved.id).material == 'metal'
     }
 
     void 'test createSprocketException'() {

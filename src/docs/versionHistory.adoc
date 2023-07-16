@@ -3,7 +3,9 @@
 ** No functional changes, just updating dependency versions, and releasing to maven central.
 *** Updating to The Latest Grails version
 *** Updating to a new version of Gradle
+*** Updating how installed service gets config to not use the deprecated navigable map, bug `getProperty()` instead
 *** Adding github action for building
+*** Building with Java 11 as min Java version
 *** Adding nexus build code for releasing to Maven Central
 * 2.0.1
 ** Removing extra import from InstalledEnforcerService template `import grails.transaction.Transactional`
