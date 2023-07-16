@@ -6,9 +6,9 @@
 
 . Add the Enforcer dependency:
 
-In Grails 5.1.7+ add the following dependency to your gradle.build:
+In Grails 5.3.2+ add the following dependency to your gradle.build:
 ----
-implementation "org.grails.plugins:enforcer:3.0.0"
+implementation "io.github.virtualdogbert:enforcer:3.0.0"
 ----
 
 In legacy versions of Grails 3.3.x+ add the following dependency to your gradle.build:
@@ -26,7 +26,5 @@ be moved, except the InstalledEnforcerService. Moving the InstalledEnforcerServi
 
 === Example applications
 
-For Grails 3.3.x:
-
-https://github.com/virtualdogbert/testEnforcer33[GitHub testEnforcer33]
+https://github.com/virtualdogbert/TestEnforcer532[GitHub testEnforcer532]
 
